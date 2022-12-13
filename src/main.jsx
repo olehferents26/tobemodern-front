@@ -6,25 +6,47 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from 'react-router-dom'
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './index.css'
+import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import { store } from './redux/store'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App/>
+    element: <App/>,
   },
   {
     path: '/login',
-    element: <LoginPage/>
+    element: <LoginPage/>,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
   },
 ])
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#8865C2'
+    }
+  },
+  typography: {
+    fontFamily: 'Montserrat, Roboto',
+    allVariants: {
+      color: '#000019'
+    }
+  }
+});
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router}/>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>
 )

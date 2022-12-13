@@ -1,30 +1,26 @@
-import { Box, Button, TextField } from '@mui/material'
+import { Box, TextField, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
+import Button from '../components/Button'
+import FullPageCenterContainer from '../components/FullPageCenterContainer'
+import NavigationLink from '../components/NavigationLink'
 
 const LoginPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm()
   const onSubmit = data => console.log(data)
 
-  console.log(errors)
-
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: '100vh'
-      }}
-    >
+    <FullPageCenterContainer>
       <Box
         component="form"
         sx={{
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
           rowGap: '20px',
-          width: '300px'
+          width: '300px',
+          border: '2px solid #E8E5EC',
+          borderRadius: '13px',
+          padding: '100px',
+          background: '#FEFDFF',
         }}
       >
         <TextField
@@ -60,9 +56,14 @@ const LoginPage = () => {
             }
           })}
         />
-        <Button variant="contained" sx={{ width: '130px' }} onClick={handleSubmit(onSubmit)}>Увійти</Button>
+        <Typography component="p" sx={{ cursor: 'pointer' }}>
+          <NavigationLink to={'/forgot-password'}>Забули пароль?</NavigationLink>
+        </Typography>
+        <Button onClick={handleSubmit(onSubmit)}>
+          Увійти
+        </Button>
       </Box>
-    </Box>
+    </FullPageCenterContainer>
   )
 }
 
