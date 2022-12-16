@@ -1,15 +1,32 @@
-import { Box, TextField, Typography } from '@mui/material'
+import { Alert, Box, TextField, Typography } from '@mui/material'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import Button from '../components/Button'
-import FullPageCenterContainer from '../components/FullPageCenterContainer'
-import NavigationLink from '../components/NavigationLink'
+import { useDispatch } from 'react-redux'
+import AlertContainer from '../../components/AlertContainer/index.jsx'
+import Button from '../../components/Button/index.jsx'
+import FullPageCenterContainer from '../../components/FullPageCenterContainer/index.jsx'
+import NavigationLink from '../../components/NavigationLink/index.jsx'
+import { useLoginMutation } from '../../services/auth.js'
+import { saveTokens } from '../../redux/auth/index.js'
 
 const LoginPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm()
-  const onSubmit = data => console.log(data)
+  const [login, { data, isLoading, error }] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  const onSubmit = data => login(data)
+
+  useEffect(() => {
+    if (data) {
+      dispatch(saveTokens(data))
+    }
+  }, [data])
 
   return (
     <FullPageCenterContainer>
+      <AlertContainer open={!!error}>
+        {error && error.status === 401 && <Alert severity="error">Невірні дані. Спробуйте ще раз</Alert>}
+      </AlertContainer>
       <Box
         component="form"
         sx={{
@@ -45,6 +62,7 @@ const LoginPage = () => {
           id="password"
           name="password"
           autoComplete="password"
+          type="password"
           label="Пароль"
           placeholder="Введіть свій пароль"
           error={!!errors?.password}
@@ -59,7 +77,7 @@ const LoginPage = () => {
         <Typography component="p" sx={{ cursor: 'pointer' }}>
           <NavigationLink to={'/forgot-password'}>Забули пароль?</NavigationLink>
         </Typography>
-        <Button onClick={handleSubmit(onSubmit)}>
+        <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
           Увійти
         </Button>
       </Box>

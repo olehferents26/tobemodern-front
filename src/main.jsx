@@ -8,9 +8,9 @@ import {
 } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './index.css'
-import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
-import LoginPage from './pages/LoginPage.jsx'
-import { store } from './redux/store'
+import ForgotPasswordPage from './pages/auth/ForgotPasswordPage.jsx'
+import LoginPage from './pages/auth/LoginPage.jsx'
+import store from './redux/store'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +23,10 @@ const router = createBrowserRouter([
   },
   {
     path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: '/forgot-password/:token',
     element: <ForgotPasswordPage />,
   },
 ])
