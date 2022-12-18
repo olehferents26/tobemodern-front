@@ -1,21 +1,25 @@
 import { Alert, Box, TextField } from '@mui/material'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import AlertContainer from '../../components/AlertContainer/index.jsx'
 import Button from '../../components/Button/index.jsx'
 import FullPageCenterContainer from '../../components/FullPageCenterContainer/index.jsx'
-import { useForgotPasswordEmailMutation, useSendForgotPasswordTokenMutation } from '../../services/auth.js'
+import { useForgotPasswordEmailMutation, useSendForgotPasswordTokenMutation } from '../../services/authApi.js'
 
 const ForgotPasswordPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm()
   const { token } = useParams()
+  const navigate = useNavigate()
   const [sendForgotPasswordEmail, {
     isLoading: sendEmailLoading,
-    error: sendEmailError
+    isSuccess: sendEmailSuccess,
+    error: sendEmailError,
   }] = useForgotPasswordEmailMutation()
   const [sendForgotPasswordToken, {
     isLoading: sendTokenLoading,
-    error: sendTokenError
+    isSuccess: sendTokenSuccess,
+    error: sendTokenError,
   }] = useSendForgotPasswordTokenMutation()
 
   const isLoading = sendEmailLoading || sendTokenLoading
@@ -64,10 +68,19 @@ const ForgotPasswordPage = () => {
     />
   }
 
+  useEffect(() => {
+    if (sendTokenSuccess) {
+      navigate('/login')
+    }
+  }, [sendTokenSuccess])
+
   return (
     <FullPageCenterContainer>
       <AlertContainer open={!!sendEmailError || !!sendTokenError}>
         {(sendEmailError || sendTokenError) && <Alert severity="error">Сталася помилка. Спробуйте ще раз</Alert>}
+      </AlertContainer>
+      <AlertContainer open={sendEmailSuccess}>
+        {sendEmailSuccess && <Alert severity="success">Емейл успішно відправлено</Alert>}
       </AlertContainer>
       <Box
         component="form"

@@ -2,23 +2,26 @@ import { Alert, Box, TextField, Typography } from '@mui/material'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import AlertContainer from '../../components/AlertContainer/index.jsx'
 import Button from '../../components/Button/index.jsx'
 import FullPageCenterContainer from '../../components/FullPageCenterContainer/index.jsx'
 import NavigationLink from '../../components/NavigationLink/index.jsx'
-import { useLoginMutation } from '../../services/auth.js'
+import { useLoginMutation } from '../../services/authApi.js'
 import { saveTokens } from '../../redux/auth/index.js'
 
 const LoginPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm()
   const [login, { data, isLoading, error }] = useLoginMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const onSubmit = data => login(data)
 
   useEffect(() => {
     if (data) {
       dispatch(saveTokens(data))
+      navigate('/dashboard/projects')
     }
   }, [data])
 

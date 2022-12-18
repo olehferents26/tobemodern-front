@@ -10,6 +10,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './index.css'
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage.jsx'
 import LoginPage from './pages/auth/LoginPage.jsx'
+import DashboardPage from './pages/dashboard/DashboardPage.jsx'
 import store from './redux/store'
 
 const router = createBrowserRouter([
@@ -29,19 +30,41 @@ const router = createBrowserRouter([
     path: '/forgot-password/:token',
     element: <ForgotPasswordPage />,
   },
+  {
+    path: '/dashboard',
+    element: <DashboardPage />,
+    children: [
+      {
+        path: '/dashboard/projects',
+        element: <p>projects</p>
+      },
+      {
+        path: '/dashboard/employee',
+        element: <p>employee</p>
+      },
+      {
+        path: '/dashboard/settings',
+        element: <p>settings</p>
+      },
+    ]
+  },
 ])
 
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#8865C2'
-    }
+      main: '#8865C2',
+      light: '#F4EDFF',
+    },
+    secondary: {
+      main: '#FEFDFF',
+    },
   },
   typography: {
     fontFamily: 'Montserrat, Roboto',
     allVariants: {
-      color: '#000019'
-    }
+      color: '#000019',
+    },
   }
 });
 
