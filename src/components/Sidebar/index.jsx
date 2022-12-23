@@ -35,7 +35,7 @@ const sidebarItems = [
   {
     name: 'Працівники',
     icon: <EmployeeIcon/>,
-    path: '/dashboard/employee',
+    path: '/dashboard/employees',
   },
   {
     name: 'Налаштування',

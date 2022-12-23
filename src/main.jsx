@@ -11,6 +11,7 @@ import './index.css'
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage.jsx'
 import LoginPage from './pages/auth/LoginPage.jsx'
 import DashboardPage from './pages/dashboard/DashboardPage.jsx'
+import EmployeesPage from './pages/dashboard/EmployeesPage.jsx'
 import store from './redux/store'
 
 const router = createBrowserRouter([
@@ -39,8 +40,8 @@ const router = createBrowserRouter([
         element: <p>projects</p>
       },
       {
-        path: '/dashboard/employee',
-        element: <p>employee</p>
+        path: '/dashboard/employees',
+        element: <EmployeesPage />,
       },
       {
         path: '/dashboard/settings',

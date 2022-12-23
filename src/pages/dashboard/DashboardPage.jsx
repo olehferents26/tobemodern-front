@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { Outlet } from 'react-router-dom'
-import Header from '../../components/Header/Header.jsx'
-import Sidebar from '../../components/Sidebar/index.jsx'
+import Header from '../../components/Header'
+import Sidebar from '../../components/Sidebar'
 
 const DashboardPage = () => {
   return (

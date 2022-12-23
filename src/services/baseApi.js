@@ -1,8 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { logout, saveTokens } from '../redux/auth'
 
-console.log(import.meta.env.VITE_API_URL)
-
 const baseQuery = fetchBaseQuery(({
   baseUrl: import.meta.env.VITE_API_URL,
   prepareHeaders: (headers) => {
@@ -21,14 +19,18 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
     if (!refreshToken) {
       api.dispatch(logout())
     }
-    const { data } = await baseQuery({
-      url: '/auth/token/refresh',
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${refreshToken}`,
-      },
-    }, api, extraOptions)
-    api.dispatch(saveTokens(data))
+    try {
+      const { data } = await baseQuery({
+        url: '/auth/token/refresh',
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${refreshToken}`,
+        },
+      }, api, extraOptions)
+      api.dispatch(saveTokens(data))
+    } catch (e) {
+      api.dispatch(logout())
+    }
   }
 
   return result

@@ -88,7 +88,7 @@ const Header = () => {
       case '/dashboard/projects':
         setContent(<ProjectsHeader sortBy={sortBy} handleSortBy={handleSortBy} />)
         break
-      case '/dashboard/employee':
+      case '/dashboard/employees':
         setContent(<EmployeeHeader />)
         break;
       case '/dashboard/settings':
