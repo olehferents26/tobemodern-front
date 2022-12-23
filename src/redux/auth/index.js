@@ -6,12 +6,14 @@ const authSlice = createSlice({
     accessToken: null,
     refreshToken: null,
     role: null,
+    isLoggedIn: null,
   },
   reducers: {
     saveTokens: (state, { payload: { accessToken, refreshToken, role, } }) => {
       state.accessToken = accessToken
       state.refreshToken = refreshToken
       state.role = role
+      state.isLoggedIn = true
 
       localStorage.setItem('accessToken', accessToken)
       localStorage.setItem('refreshToken', refreshToken)
@@ -21,6 +23,7 @@ const authSlice = createSlice({
       state.accessToken = null;
       state.refreshToken = null;
       state.role = null;
+      state.isLoggedIn = false
 
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')

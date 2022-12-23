@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import './index.css'
+import ProtectedRoute from './components/ProtectedRoute/index.jsx'
 import ForgotPasswordPage from './pages/auth/ForgotPasswordPage.jsx'
 import LoginPage from './pages/auth/LoginPage.jsx'
 import DashboardPage from './pages/dashboard/DashboardPage.jsx'
@@ -33,7 +34,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <DashboardPage />,
+    element: <ProtectedRoute><DashboardPage /></ProtectedRoute>,
     children: [
       {
         path: '/dashboard/projects',

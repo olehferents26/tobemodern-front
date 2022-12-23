@@ -14,8 +14,15 @@ export const userApi = baseApi.injectEndpoints({
         method: 'GET',
       })
     }),
+    updateUser: builder.mutation({
+      query: (user) => ({
+        url: '/users',
+        method: 'PUT',
+        body: user,
+      })
+    }),
     overrideExisting: false,
   })
 })
 
-export const { useGetCurrentUserQuery, useGetUsersQuery } = userApi
+export const { useGetCurrentUserQuery, useGetUsersQuery, useUpdateUserMutation } = userApi
