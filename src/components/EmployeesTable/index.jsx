@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useGetUsersQuery, useUpdateUserMutation } from '../../services/userApi.js'
+import { useDeleteUserMutation, useGetUsersQuery, useUpdateUserMutation } from '../../services/userApi.js'
 import Table from '../Table/index.jsx'
 
 const columns = [
@@ -35,6 +35,7 @@ const EmployeesTable = () => {
 
   const { data } = useGetUsersQuery()
   const [updateUser] = useUpdateUserMutation()
+  const [deleteUser] = useDeleteUserMutation()
 
   useEffect(() => {
     if (data) {
@@ -47,6 +48,7 @@ const EmployeesTable = () => {
       columns={columns}
       data={rows}
       onUpdate={updateUser}
+      onDelete={deleteUser}
     />
   )
 }

@@ -1,9 +1,9 @@
 import { alpha, Box, styled, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom'
 import { useIsAdmin } from '../../hooks/useIsAdmin.js'
-import AddIcon from '../../icons/AddIcon.jsx'
 import EmployeeIcon from '../../icons/EmployeeIcon.jsx'
 import ProjectsIcon from '../../icons/ProjectsIcon.jsx'
+import AddButton from '../AddButton/index.jsx'
 
 const Container = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -61,19 +61,7 @@ const Sidebar = () => {
           justifyContent: 'center',
           backgroundColor: '#F8F4FF',
         }}>
-          <Box sx={{
-            width: '278px',
-            height: '50px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            border: '1.5px solid #795EA4',
-            borderRadius: '6px',
-            cursor: 'pointer',
-          }}>
-            <AddIcon />
-            <Typography fontWeight="bold" textTransform="uppercase"> Новий проект</Typography>
-          </Box>
+          <AddButton text="Новий проект" onClick={() => {}} />
         </Box>
       )}
       {sidebarItems.map(({ name, icon, path }, index) => {

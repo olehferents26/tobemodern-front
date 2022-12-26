@@ -5,6 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import AlertContainer from '../../components/AlertContainer/index.jsx'
 import Button from '../../components/Button/index.jsx'
 import FullPageCenterContainer from '../../components/FullPageCenterContainer/index.jsx'
+import { requiredFieldOption } from '../../helpers/form.js'
 import { useForgotPasswordEmailMutation, useSendForgotPasswordTokenMutation } from '../../services/authApi.js'
 
 const ForgotPasswordPage = () => {
@@ -40,12 +41,7 @@ const ForgotPasswordPage = () => {
         type="password"
         error={!!errors?.password}
         helperText={errors?.password?.message}
-        {...register('password', {
-          required: {
-            value: true,
-            message: `Обов'язкове поле`
-          }
-        })}
+        {...register('password', { requiredFieldOption })}
       />
     }
 
@@ -59,12 +55,7 @@ const ForgotPasswordPage = () => {
       placeholder="Введіть свій email"
       error={!!errors?.email}
       helperText={errors?.email?.message}
-      {...register('email', {
-        required: {
-          value: true,
-          message: `Обов'язкове поле`
-        }
-      })}
+      {...register('email', { requiredFieldOption })}
     />
   }
 
@@ -97,6 +88,7 @@ const ForgotPasswordPage = () => {
       >
         {renderTextField()}
         <Button
+          variant="contained"
           onClick={handleSubmit(token ? changePasswordHandler : sendEmailHandler)}
           disabled={isLoading}
         >

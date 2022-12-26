@@ -4,7 +4,6 @@ const Button = ({ children, ...props }) => {
   return (
     <MuiButton
       {...props}
-      variant="contained"
       sx={{
         width: '189px',
         height: '68px',

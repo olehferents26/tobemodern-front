@@ -8,22 +8,20 @@ import {
   TableFooter,
   TablePagination,
   IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText, useTheme, Box,
+  useTheme,
+  Box,
 }
   from '@mui/material'
 import FirstPageIcon from '@mui/icons-material/FirstPage'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import LastPageIcon from '@mui/icons-material/LastPage'
+import ConfirmIcon from '../../icons/ConfirmIcon.jsx'
 import DeleteIcon from '../../icons/DeleteIcon.jsx'
 import EditIcon from '../../icons/EditIcon.jsx'
-import DoneIcon from '@mui/icons-material/DoneAllTwoTone'
-import RevertIcon from '@mui/icons-material/NotInterestedOutlined'
+import RevertIcon from '../../icons/RevertIcon.jsx'
+import DialogConfirmCancel from '../DialogConfirmCancel/index.jsx'
 import TableCellEditable from '../TableCellEditable'
-import Button from '../Button'
 
 const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
   const theme = useTheme()
@@ -80,7 +78,7 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
   )
 }
 
-const Table = ({ columns, data, onUpdate }) => {
+const Table = ({ columns, data, onUpdate, onDelete }) => {
   const [rows, setRows] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -161,6 +159,8 @@ const Table = ({ columns, data, onUpdate }) => {
     const newRows = rows.filter(row => row.id !== currentRowId)
     setRows(newRows)
 
+    onDelete(currentRowId)
+
     closeRemoveDialog()
   }
 
@@ -171,7 +171,7 @@ const Table = ({ columns, data, onUpdate }) => {
   }, [data])
 
   return (
-    <MuiTable>
+    <MuiTable size="small">
       <TableHead>
         <TableRow>
           {columns.map(({ key, value }) => {
@@ -203,7 +203,7 @@ const Table = ({ columns, data, onUpdate }) => {
                         aria-label="done"
                         onClick={() => onSubmit(row.id)}
                       >
-                        <DoneIcon/>
+                        <ConfirmIcon/>
                       </IconButton>
                       <IconButton
                         aria-label="revert"
@@ -227,29 +227,13 @@ const Table = ({ columns, data, onUpdate }) => {
                   </IconButton>
                 </TableCell>
               </TableRow>
-              <Dialog
-                open={isRemoveDialogOpen}
+              <DialogConfirmCancel
+                isOpen={isRemoveDialogOpen}
                 onClose={closeRemoveDialog}
-                slotProps={{
-                  backdrop: {
-                    sx: {
-                      backgroundColor: 'rgba(0, 0, 0, 0.2)'
-                    }
-                  }
-                }}
-              >
-                <DialogContent>
-                  <DialogContentText>
-                    Ви впевнені, що хочете видалити цього працівника?
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
-                  <Button onClick={closeRemoveDialog}>Скасувати</Button>
-                  <Button onClick={onRemove} autoFocus>
-                    Підтвердити
-                  </Button>
-                </DialogActions>
-              </Dialog>
+                onCancel={closeRemoveDialog}
+                onSubmit={onRemove}
+                titleText="Ви впевнені, що хочете видалити цього працівника?"
+              />
             </Fragment>
           )
         })}

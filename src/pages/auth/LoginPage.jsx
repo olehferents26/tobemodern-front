@@ -9,6 +9,7 @@ import FullPageCenterContainer from '../../components/FullPageCenterContainer/in
 import NavigationLink from '../../components/NavigationLink/index.jsx'
 import { useLoginMutation } from '../../services/authApi.js'
 import { saveTokens } from '../../redux/auth/index.js'
+import { requiredFieldOption } from '../../helpers/form.js'
 
 const LoginPage = () => {
   const { handleSubmit, register, formState: { errors } } = useForm()
@@ -53,12 +54,7 @@ const LoginPage = () => {
           placeholder="Введіть свій email"
           error={!!errors?.email}
           helperText={errors?.email?.message}
-          {...register('email', {
-            required: {
-              value: true,
-              message: `Обов'язкове поле`
-            }
-          })}
+          {...register('email', { requiredFieldOption })}
         />
         <TextField
           fullWidth
@@ -70,17 +66,12 @@ const LoginPage = () => {
           placeholder="Введіть свій пароль"
           error={!!errors?.password}
           helperText={errors?.password?.message}
-          {...register('password', {
-            required: {
-              value: true,
-              message: `Обов'язкове поле`
-            }
-          })}
+          {...register('password', { requiredFieldOption })}
         />
         <Typography component="p" sx={{ cursor: 'pointer' }}>
           <NavigationLink to={'/forgot-password'}>Забули пароль?</NavigationLink>
         </Typography>
-        <Button onClick={handleSubmit(onSubmit)} disabled={isLoading}>
+        <Button variant="contained" onClick={handleSubmit(onSubmit)} disabled={isLoading}>
           Увійти
         </Button>
       </Box>
