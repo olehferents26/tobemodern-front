@@ -1,9 +1,12 @@
-import { alpha, Box, styled, Typography } from '@mui/material'
+import { Alert, alpha, Box, styled, Typography } from '@mui/material'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useIsAdmin } from '../../hooks/useIsAdmin.js'
 import EmployeeIcon from '../../icons/EmployeeIcon.jsx'
 import ProjectsIcon from '../../icons/ProjectsIcon.jsx'
+import { useCreateProjectMutation } from '../../services/projectApi.js'
 import AddButton from '../AddButton/index.jsx'
+import AlertContainer from '../AlertContainer/index.jsx'
 
 const Container = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
@@ -48,10 +51,39 @@ const Sidebar = () => {
   const navigate = useNavigate()
   const isAdmin = useIsAdmin()
 
+  const [projectFile, setProjectFile] = useState(null)
+  const inputRef = useRef()
+
+  const [createProject, createProjectMethods] = useCreateProjectMutation()
+
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setProjectFile(e.target.files[0]);
+    }
+  }
+
+  const handleChooseFile = () => {
+    inputRef.current.click()
+  }
+
   const handleNavigation = (path) => navigate(path)
+
+  useEffect(() => {
+    if (projectFile) {
+      const formData = new FormData()
+      formData.append("file", projectFile)
+      createProject(formData)
+    }
+  }, [projectFile]);
 
   return (
     <Container>
+      <AlertContainer open={createProjectMethods.isError}>
+        <Alert severity="error">Сталася помилка. Спробуйте ще раз</Alert>
+      </AlertContainer>
+      <AlertContainer open={createProjectMethods.isSuccess}>
+        <Alert severity="success">Проект успішно завантажено</Alert>
+      </AlertContainer>
       {isAdmin && (
         <Box sx={{
           height: '126px',
@@ -61,7 +93,8 @@ const Sidebar = () => {
           justifyContent: 'center',
           backgroundColor: '#F8F4FF',
         }}>
-          <AddButton text="Новий проект" onClick={() => {}} />
+          <input type="file" ref={inputRef} style={{ display: 'none' }} onChange={handleFileChange} />
+          <AddButton text="Новий проект" onClick={handleChooseFile} />
         </Box>
       )}
       {sidebarItems.map(({ name, icon, path }, index) => {

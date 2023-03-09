@@ -13,6 +13,8 @@ import ForgotPasswordPage from './pages/auth/ForgotPasswordPage.jsx'
 import LoginPage from './pages/auth/LoginPage.jsx'
 import DashboardPage from './pages/dashboard/DashboardPage.jsx'
 import EmployeesPage from './pages/dashboard/EmployeesPage.jsx'
+import ProjectsPage from './pages/dashboard/ProjectsPage.jsx'
+import SettingsPage from './pages/dashboard/SettingsPage.jsx'
 import store from './redux/store'
 
 const router = createBrowserRouter([
@@ -34,11 +36,13 @@ const router = createBrowserRouter([
   },
   {
     path: '/dashboard',
-    element: <ProtectedRoute><DashboardPage /></ProtectedRoute>,
+    element: <ProtectedRoute>
+      <DashboardPage />
+    </ProtectedRoute>,
     children: [
       {
         path: '/dashboard/projects',
-        element: <p>projects</p>
+        element: <ProjectsPage />
       },
       {
         path: '/dashboard/employees',
@@ -46,7 +50,9 @@ const router = createBrowserRouter([
       },
       {
         path: '/dashboard/settings',
-        element: <p>settings</p>
+        element: <ProtectedRoute>
+          <SettingsPage />
+        </ProtectedRoute>
       },
     ]
   },
