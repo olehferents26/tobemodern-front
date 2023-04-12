@@ -16,6 +16,7 @@ import FirstPageIcon from '@mui/icons-material/FirstPage'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
 import LastPageIcon from '@mui/icons-material/LastPage'
+import { useIsAdmin } from '../../hooks/useIsAdmin.js'
 import ConfirmIcon from '../../icons/ConfirmIcon.jsx'
 import DeleteIcon from '../../icons/DeleteIcon.jsx'
 import EditIcon from '../../icons/EditIcon.jsx'
@@ -87,7 +88,12 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
   const [currentRowId, setCurrentRowId] = useState(null)
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false)
 
+  const isAdmin = useIsAdmin()
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0
+
+  const showEditButton = columns.filter(c => c.isEditable === true).length > 0 && isAdmin
+  const showDeleteButton = isAdmin
 
   const onChange = (e, row) => {
     if (!previous[row.id]) {
@@ -95,6 +101,8 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
     }
     const value = e.target.value
     const name = e.target.name
+    console.log(e.target)
+    console.log(value, name);
     const { id } = row
     const newRows = rows.map(row => {
       if (row.id === id) {
@@ -116,6 +124,8 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
     })
     setPrevious({})
   }
+
+  console.log(rows)
 
   const onSubmit = id => {
     onToggleEditMode(id)
@@ -187,45 +197,53 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
           return (
             <Fragment key={row.id}>
               <TableRow>
-                {columns.map(({ key, isEditable }) => {
+                {columns.map(({ key, isEditable, isDropdown, dropdownOptions }) => {
                   return (
                     <Fragment key={`${key}-${row.id}`}>
                       {isEditable ? (
-                        <TableCellEditable {...{ row, name: key, onChange }} />
+                        <TableCellEditable {...{ row, name: key, onChange, isDropdown, dropdownOptions }} />
                       ) : <TableCell>{row[key]}</TableCell>}
                     </Fragment>
                   )
                 })}
-                <TableCell>
-                  {row.isEditMode ? (
-                    <>
+                {showEditButton ? (
+                  <TableCell>
+                    {row.isEditMode ? (
+                      <>
+                        <IconButton
+                          aria-label="done"
+                          onClick={() => onSubmit(row.id)}
+                        >
+                          <ConfirmIcon/>
+                        </IconButton>
+                        <IconButton
+                          aria-label="revert"
+                          onClick={() => onRevert(row.id)}
+                        >
+                          <RevertIcon/>
+                        </IconButton>
+                      </>
+                    ) : (
                       <IconButton
-                        aria-label="done"
-                        onClick={() => onSubmit(row.id)}
+                        aria-label="delete"
+                        onClick={() => onToggleEditMode(row.id)}
                       >
-                        <ConfirmIcon/>
+                        <EditIcon/>
                       </IconButton>
-                      <IconButton
-                        aria-label="revert"
-                        onClick={() => onRevert(row.id)}
-                      >
-                        <RevertIcon/>
-                      </IconButton>
-                    </>
-                  ) : (
-                    <IconButton
-                      aria-label="delete"
-                      onClick={() => onToggleEditMode(row.id)}
-                    >
-                      <EditIcon/>
+                    )}
+                </TableCell>
+                ) : (
+                  <TableCell></TableCell>
+                )}
+                {showDeleteButton ? (
+                  <TableCell>
+                    <IconButton aria-label="remove" onClick={() => onDeleteIcon(row.id)}>
+                      <DeleteIcon/>
                     </IconButton>
-                  )}
-                </TableCell>
-                <TableCell>
-                  <IconButton aria-label="remove" onClick={() => onDeleteIcon(row.id)}>
-                    <DeleteIcon/>
-                  </IconButton>
-                </TableCell>
+                  </TableCell>
+                ) : (
+                  <TableCell></TableCell>
+                )}
               </TableRow>
               <DialogConfirmCancel
                 isOpen={isRemoveDialogOpen}
