@@ -76,6 +76,24 @@ const SettingsHeader = () => {
   )
 }
 
+const ProjectDetailsHeader = () => {
+  return (
+    <>
+      <UserInfo />
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase
+          placeholder="Знайти"
+          inputProps={{ 'aria-label': 'search' }}
+        />
+      </Search>
+      <div></div>
+    </>
+  )
+}
+
 const Header = () => {
   const [sortBy, setSortBy] = useState('date')
   const [content, setContent] = useState(<></>)
@@ -93,6 +111,9 @@ const Header = () => {
         break;
       case '/dashboard/settings':
         setContent(<SettingsHeader />)
+        break;
+      case '/dashboard/project':
+        setContent(<ProjectDetailsHeader />)
         break;
       default:
         setContent(<></>)
