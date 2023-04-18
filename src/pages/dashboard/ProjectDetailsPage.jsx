@@ -1,19 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
    styled,
    Typography,
    Box,
    Button
 } from '@mui/material';
-
 import OperationsTable from '../../components/OperationTable/index.jsx';
 import DetailsTable from '../../components/DetailsTable/index.jsx';
 
 const HeaderStyle = styled('div')(() => ({
    width: "100%",
-   height: '50px',
+   height: '80px',
    display: 'flex',
-   alignItems: 'center'
+   alignItems: 'center',
+   justifyContent: 'space-between',
+   borderBottom: '2px solid #E8E5EC',
 }));
 
 const ButtonStyle = styled(Button)(({ theme }) => ({
@@ -23,33 +24,78 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 }));
 
 const ProjectDetailsPage = () => {
+   const [currentSection, setCurrentSection] = useState('inProgress')
+
    return (
-      <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '25px' }}>
+      <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '10px', maxHeight: '90vh', overflow: 'auto' }}>
          <HeaderStyle>
             <Typography fontSize={32} fontWeight={800}>
-               {'Project 1'}
+               {'Назва проекту'}
             </Typography>
 
             <Box ml='70px' sx={{ width: '500px', display: 'flex', justifyContent: 'space-between' }}>
-               <ButtonStyle>В прогресі</ButtonStyle>
-               <ButtonStyle>Операції</ButtonStyle>
-               <ButtonStyle>Деталі</ButtonStyle>
-               <ButtonStyle>Комплектування</ButtonStyle>
+               <ButtonStyle onClick={() => setCurrentSection('inProgress')}>
+                  В прогресі
+               </ButtonStyle>
+               <ButtonStyle onClick={() => setCurrentSection('Operations')}>
+                  Операції
+               </ButtonStyle>
+               <ButtonStyle onClick={() => setCurrentSection('Details')}>
+                  Деталі
+               </ButtonStyle>
+               <ButtonStyle onClick={() => setCurrentSection('Equipment')}>
+                  Комплектування
+               </ButtonStyle>
+            </Box>
+
+            <Box>
+               <Typography fontWeight={600} fontSize={16} color='#8A8A8A'>{`Тарас Шевченко`}</Typography>
             </Box>
          </HeaderStyle>
 
-         <Box mt='30px'>
-            <Typography fontWeight={600} fontSize={16} color='#8A8A8A'>{`user name`}</Typography>
-            <Typography fontWeight={600} fontSize={16} color='#8A8A8A'>{'employee'}</Typography>
-         </Box>
+         {currentSection === 'inProgress' &&
+            <>
+               <Box mt='30px'>
+                  <OperationsTable />
+               </Box>
 
-         <Box mt='30px'>
-            <OperationsTable />
-         </Box>
+               <Box mt='30px' mb='30px'>
+                  <DetailsTable title='Деталі' />
+               </Box>
+            </>
+         }
 
-         <Box mt='30px' mb='30px'>
-            <DetailsTable />
-         </Box>
+         {
+            currentSection === 'Operations' &&
+            <>
+               sss
+            </>
+         }
+
+         {
+            currentSection === 'Details' &&
+            <>
+            <Box mt='30px' mb='30px'>
+                  <DetailsTable title='Деталі в роботі' />
+            </Box>
+
+             <Box mt='30px' mb='30px'>
+               <DetailsTable title='Готові деталі' />
+            </Box>
+
+             <Box mt='30px' mb='30px'>
+                  <DetailsTable title='Браковані деталі' />
+               </Box>
+            </>
+         }
+
+         {
+            currentSection === 'Equipment' &&
+            <>
+               ssss
+            </>
+         }
+
       </Box>
    )
 }

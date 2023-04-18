@@ -18,7 +18,7 @@ const OperationsTable = (props) => {
 
    return (
       <Box>
-         <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Operations</Typography>
+         <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Процеси</Typography>
 
          <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">

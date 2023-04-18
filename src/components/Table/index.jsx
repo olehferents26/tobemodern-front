@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Table as MuiTable,
   TableCell,
@@ -80,6 +81,7 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
 }
 
 const Table = ({ columns, data, onUpdate, onDelete }) => {
+  const navigate = useNavigate();
   const [rows, setRows] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -202,7 +204,7 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
                     <Fragment key={`${key}-${row.id}`}>
                       {isEditable ? (
                         <TableCellEditable {...{ row, name: key, onChange, isDropdown, dropdownOptions }} />
-                      ) : <TableCell>{row[key]}</TableCell>}
+                      ) : <TableCell onClick={() => navigate(`/dashboard/project/${row.id}`)}>{row[key]}</TableCell>}
                     </Fragment>
                   )
                 })}
