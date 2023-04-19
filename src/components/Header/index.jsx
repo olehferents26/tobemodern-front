@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { useGetCurrentUserQuery } from '../../services/userApi'
 import SearchIcon from '@mui/icons-material/Search'
 import { Search, SearchIconWrapper, StyledInputBase } from './styles'
+import { useSelector } from 'react-redux'
 
 const UserInfo = () => {
   const { data: user } = useGetCurrentUserQuery()
@@ -28,7 +29,7 @@ const ProjectsHeader = ({ sortBy, handleSortBy }) => {
       <UserInfo />
       <Search>
         <SearchIconWrapper>
-          <SearchIcon/>
+          <SearchIcon />
         </SearchIconWrapper>
         <StyledInputBase
           placeholder="Знайти проект"
@@ -98,6 +99,7 @@ const Header = () => {
   const [sortBy, setSortBy] = useState('date')
   const [content, setContent] = useState(<></>)
   const { pathname } = useLocation()
+  const currentProjectId = useSelector(state => state.project.currentProjectId)
 
   const handleSortBy = (e) => setSortBy(e.target.value)
 
@@ -112,7 +114,7 @@ const Header = () => {
       case '/dashboard/settings':
         setContent(<SettingsHeader />)
         break;
-      case '/dashboard/project':
+      case `/dashboard/project/${currentProjectId}`:
         setContent(<ProjectDetailsHeader />)
         break;
       default:

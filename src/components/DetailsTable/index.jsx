@@ -17,7 +17,7 @@ import {
 import { mockedDetailsData } from '../../services/mockedData';
 
 const DetailsTable = (props) => {
-   const { title } = props;
+   const { title, detailsData } = props;
 
    const [status, setStatus] = React.useState('');
 
@@ -59,7 +59,7 @@ const DetailsTable = (props) => {
                   </TableRow>
                </TableHead>
                <TableBody>
-                  {mockedDetailsData.map((project) => (
+                  {detailsData.map((project) => (
                      <TableRow
                         key={project.name}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
