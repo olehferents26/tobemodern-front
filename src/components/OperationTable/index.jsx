@@ -11,45 +11,30 @@ import {
    Paper
 } from '@mui/material';
 
-import { mockedOperationsData } from '../../services/mockedData';
-
 const OperationsTable = (props) => {
-   const { } = props;
+   const { operationsData } = props;
 
    return (
       <Box>
-         <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Процеси</Typography>
+         <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Операції</Typography>
 
-         <TableContainer component={Paper}>
+         <TableContainer component={Paper} sx={{maxWidth: '900px'}}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <TableRow>
-                     <TableCell>Назва</TableCell>
-                     <TableCell align="left">Param 1</TableCell>
-                     <TableCell align="left">Param 2</TableCell>
-                     <TableCell align="left">Param 3</TableCell>
-                     <TableCell align="left">Param 4</TableCell>
-                     <TableCell align="left">Param 5</TableCell>
-                     <TableCell align="left">Param 6</TableCell>
-                     <TableCell align="left">Param 7</TableCell>
+                     <TableCell align="center" sx={{ maxWidth: '30px' }}>Порядковий номер</TableCell>
+                     <TableCell align="left">Код операції</TableCell>
+                     <TableCell align="left">Операція</TableCell>
+                     <TableCell align="center">Статус виконаної роботи</TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
-                  {mockedOperationsData.map((project) => (
-                     <TableRow
-                        key={project.name}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                     >
-                        <TableCell component="th" scope="row">
-                           {project.name}
-                        </TableCell>
+                  {operationsData.map((project, index) => (
+                     <TableRow>
+                        <TableCell align="left">{index + 1}</TableCell>
                         <TableCell align="left">{project.param1}</TableCell>
                         <TableCell align="left">{project.param2}</TableCell>
-                        <TableCell align="left">{project.param3}</TableCell>
-                        <TableCell align="left">{project.param4}</TableCell>
-                        <TableCell align="left">{project.param5}</TableCell>
-                        <TableCell align="left">{project.param6}</TableCell>
-                        <TableCell align="left">{project.param7}</TableCell>
+                        <TableCell align="center">{project.param3}</TableCell>
                      </TableRow>
                   ))}
                </TableBody>

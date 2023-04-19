@@ -24,6 +24,8 @@ import EditIcon from '../../icons/EditIcon.jsx'
 import RevertIcon from '../../icons/RevertIcon.jsx'
 import DialogConfirmCancel from '../DialogConfirmCancel/index.jsx'
 import TableCellEditable from '../TableCellEditable'
+import { useDispatch } from 'react-redux'
+import { addCurrentProjectId } from '../../redux/project/index.js'
 
 const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
   const theme = useTheme()
@@ -53,28 +55,28 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === 'rtl' ? <LastPageIcon/> : <FirstPageIcon/>}
+        {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowRight/> : <KeyboardArrowLeft/>}
+        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
       </IconButton>
       <IconButton
         onClick={handleNextButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl' ? <KeyboardArrowLeft/> : <KeyboardArrowRight/>}
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
       </IconButton>
       <IconButton
         onClick={handleLastPageButtonClick}
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === 'rtl' ? <FirstPageIcon/> : <LastPageIcon/>}
+        {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
       </IconButton>
     </Box>
   )
@@ -82,6 +84,7 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
 
 const Table = ({ columns, data, onUpdate, onDelete }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [rows, setRows] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -193,8 +196,8 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
       </TableHead>
       <TableBody>
         {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+          ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          : rows
         ).map(row => {
           return (
             <Fragment key={row.id}>
@@ -204,7 +207,15 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
                     <Fragment key={`${key}-${row.id}`}>
                       {isEditable ? (
                         <TableCellEditable {...{ row, name: key, onChange, isDropdown, dropdownOptions }} />
-                      ) : <TableCell onClick={() => navigate(`/dashboard/project/${row.id}`)}>{row[key]}</TableCell>}
+                      ) :
+                        <TableCell
+                          sx={{ cursor: 'pointer' }}
+                          onClick={() => {
+                            dispatch(addCurrentProjectId(row.id))
+                            navigate(`/dashboard/project/${row.id}`);
+                          }}>
+                          {row[key]}
+                        </TableCell>}
                     </Fragment>
                   )
                 })}
@@ -216,13 +227,13 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
                           aria-label="done"
                           onClick={() => onSubmit(row.id)}
                         >
-                          <ConfirmIcon/>
+                          <ConfirmIcon />
                         </IconButton>
                         <IconButton
                           aria-label="revert"
                           onClick={() => onRevert(row.id)}
                         >
-                          <RevertIcon/>
+                          <RevertIcon />
                         </IconButton>
                       </>
                     ) : (
@@ -230,17 +241,17 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
                         aria-label="delete"
                         onClick={() => onToggleEditMode(row.id)}
                       >
-                        <EditIcon/>
+                        <EditIcon />
                       </IconButton>
                     )}
-                </TableCell>
+                  </TableCell>
                 ) : (
                   <TableCell></TableCell>
                 )}
                 {showDeleteButton ? (
                   <TableCell>
                     <IconButton aria-label="remove" onClick={() => onDeleteIcon(row.id)}>
-                      <DeleteIcon/>
+                      <DeleteIcon />
                     </IconButton>
                   </TableCell>
                 ) : (
@@ -259,7 +270,7 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
         })}
         {emptyRows > 0 && (
           <TableRow style={{ height: 53 * emptyRows }}>
-            <TableCell colSpan={6}/>
+            <TableCell colSpan={6} />
           </TableRow>
         )}
       </TableBody>

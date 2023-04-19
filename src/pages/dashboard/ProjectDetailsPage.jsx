@@ -7,6 +7,7 @@ import {
 } from '@mui/material';
 import OperationsTable from '../../components/OperationTable/index.jsx';
 import DetailsTable from '../../components/DetailsTable/index.jsx';
+import { mockedDetailsData, mockedOperationsData } from '../../services/mockedData.js';
 
 const HeaderStyle = styled('div')(() => ({
    width: "100%",
@@ -56,11 +57,11 @@ const ProjectDetailsPage = () => {
          {currentSection === 'inProgress' &&
             <>
                <Box mt='30px'>
-                  <OperationsTable />
+                  <OperationsTable operationsData={mockedOperationsData} />
                </Box>
 
                <Box mt='30px' mb='30px'>
-                  <DetailsTable title='Деталі' />
+                  <DetailsTable title='Деталі' detailsData={mockedDetailsData} />
                </Box>
             </>
          }
@@ -68,7 +69,9 @@ const ProjectDetailsPage = () => {
          {
             currentSection === 'Operations' &&
             <>
-               sss
+               <Box mt='30px'>
+                  <OperationsTable operationsData={mockedOperationsData} />
+               </Box>
             </>
          }
 
@@ -76,15 +79,15 @@ const ProjectDetailsPage = () => {
             currentSection === 'Details' &&
             <>
             <Box mt='30px' mb='30px'>
-                  <DetailsTable title='Деталі в роботі' />
+                  <DetailsTable title='Деталі в роботі' detailsData={mockedDetailsData} />
             </Box>
 
              <Box mt='30px' mb='30px'>
-               <DetailsTable title='Готові деталі' />
+                  <DetailsTable title='Готові деталі' detailsData={mockedDetailsData} />
             </Box>
 
              <Box mt='30px' mb='30px'>
-                  <DetailsTable title='Браковані деталі' />
+                  <DetailsTable title='Браковані деталі' detailsData={mockedDetailsData} />
                </Box>
             </>
          }
