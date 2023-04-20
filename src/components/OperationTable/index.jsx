@@ -30,7 +30,7 @@ const OperationsTable = (props) => {
                </TableHead>
                <TableBody>
                   {operationsData.map((project, index) => (
-                     <TableRow>
+                     <TableRow key={project.id}>
                         <TableCell align="left">{index + 1}</TableCell>
                         <TableCell align="left">{project.param1}</TableCell>
                         <TableCell align="left">{project.param2}</TableCell>

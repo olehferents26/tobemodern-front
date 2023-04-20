@@ -8,6 +8,7 @@ import {
 import OperationsTable from '../../components/OperationTable/index.jsx';
 import DetailsTable from '../../components/DetailsTable/index.jsx';
 import { mockedDetailsData, mockedOperationsData } from '../../services/mockedData.js';
+import ProjectCompletionPage from './ProjectCompletionPage.jsx';
 
 const HeaderStyle = styled('div')(() => ({
    width: "100%",
@@ -95,7 +96,7 @@ const ProjectDetailsPage = () => {
          {
             currentSection === 'Equipment' &&
             <>
-               ssss
+               <ProjectCompletionPage/>
             </>
          }
 

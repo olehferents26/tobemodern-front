@@ -50,7 +50,6 @@ const columns = [
 
 const ProjectsTable = () => {
   const { data } = useGetProjectsQuery()
-
   return (
     <Table
       columns={columns}
