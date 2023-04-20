@@ -61,7 +61,7 @@ const DetailsTable = (props) => {
                <TableBody>
                   {detailsData.map((project) => (
                      <TableRow
-                        key={project.name}
+                        key={project.id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                      >
                         <TableCell component="th" scope="row">
