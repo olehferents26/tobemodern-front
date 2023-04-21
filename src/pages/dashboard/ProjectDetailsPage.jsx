@@ -29,7 +29,7 @@ const ProjectDetailsPage = () => {
    const [currentSection, setCurrentSection] = useState('inProgress')
 
    return (
-      <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '10px', maxHeight: '90vh', overflow: 'auto' }}>
+      <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '10px' }}>
          <HeaderStyle>
             <Typography fontSize={32} fontWeight={800}>
                {'Назва проекту'}

@@ -19,7 +19,7 @@ const DialogConfirmCancel = ({ isOpen, onClose, onCancel, onSubmit, titleText })
           {titleText}
         </DialogContentText>
       </DialogContent>
-      <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly' }}>
+      <DialogActions sx={{ display: 'flex', justifyContent: 'space-evenly', marginBottom: '10px' }}>
         <Button onClick={onCancel} variant="outlined">Скасувати</Button>
         <Button onClick={onSubmit} variant="contained" autoFocus>
           Підтвердити

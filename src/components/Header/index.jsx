@@ -117,6 +117,9 @@ const Header = () => {
       case `/dashboard/project/${currentProjectId}`:
         setContent(<ProjectDetailsHeader />)
         break;
+      case `/dashboard/project/configuration`:
+        setContent(<ProjectDetailsHeader />)
+        break;
       default:
         setContent(<></>)
         break

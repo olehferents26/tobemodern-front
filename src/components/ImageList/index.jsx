@@ -16,6 +16,15 @@ const ImageListStyles = styled(ImageList)(({ theme }) => ({
    transform: 'translateZ(0)',
 }));
 
+const ImageWrapperStyles = styled('div')(({ theme }) => ({
+   width: '300px',
+   height: '200px',
+   display: 'flex',
+   textAlign: 'center',
+   justifyContent: 'center',
+   marginTop: '25px'
+}));
+
 const ImageStyles = styled('img')(({ theme }) => ({
    width: '300px',
    height: '200px',
@@ -31,9 +40,9 @@ const SingleLineImageList = (props) => {
             {images.map((image, index) => {
                const imageUrl = URL.createObjectURL(image);
                return (
-                  <div key={index}>
+                  <ImageWrapperStyles key={index}>
                      <ImageStyles src={imageUrl} alt={image.name} />
-                  </div>
+                  </ImageWrapperStyles>
                )
             })}
          </ImageListStyles>

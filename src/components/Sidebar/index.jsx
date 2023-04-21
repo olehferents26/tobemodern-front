@@ -11,7 +11,7 @@ import NewProjectForm from '../NewProjectForm/index.jsx'
 const Container = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
   width: '340px',
-  height: '90vh',
+  minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
 }))
