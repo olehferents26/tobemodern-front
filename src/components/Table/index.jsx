@@ -179,7 +179,7 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
 
   useEffect(() => {
     if (data) {
-      setRows(data.TODO.map(obj => ({ ...obj, isEditMode: false, })))
+      setRows(data.map(obj => ({ ...obj, isEditMode: false, })))
     }
   }, [data])
 
