@@ -240,3 +240,40 @@ export const mockedImageArray = [
    'https://picsum.photos/200/300',
    'https://picsum.photos/200/300',
 ]
+
+export const mockedComplectationsData = [
+   {
+      id: 1,
+      param1: 'Значення 1',
+      param2: 'Значення 2',
+      param3: 'Значення 3',
+      param4: 'Значення 4',
+   }, {
+      id: 2,
+      param1: 'Значення 1',
+      param2: 'Значення 2',
+      param3: 'Значення 3',
+      param4: 'Значення 4',
+   },
+   {
+      id: 3,
+      param1: 'Значення 1',
+      param2: 'Значення 2',
+      param3: 'Значення 3',
+      param4: 'Значення 4',
+   },
+   {
+      id: 4,
+      param1: 'Значення 1',
+      param2: 'Значення 2',
+      param3: 'Значення 3',
+      param4: 'Значення 4',
+   },
+   {
+      id: 5,
+      param1: 'Значення 1',
+      param2: 'Значення 2',
+      param3: 'Значення 3',
+      param4: 'Значення 4',
+   },
+]

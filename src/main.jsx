@@ -17,6 +17,7 @@ import ProjectsPage from './pages/dashboard/ProjectsPage.jsx'
 import SettingsPage from './pages/dashboard/SettingsPage.jsx'
 import store from './redux/store'
 import ProjectDetailsPage from './pages/dashboard/ProjectDetailsPage'
+import ConfigurationDetailPage from './pages/dashboard/ConfigurationDetailPage'
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: '/dashboard/project/:id',
         element: <ProjectDetailsPage />
+      },
+      {
+        path: '/dashboard/project/configuration',
+        element: <ConfigurationDetailPage />
       },
       {
         path: '/dashboard/employees',
