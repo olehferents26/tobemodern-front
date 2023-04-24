@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
    Box,
    Grid,
@@ -17,7 +17,7 @@ import {
 import { styled } from '@mui/material';
 import { useSelector } from 'react-redux'
 import SingleLineImageList from '../../components/ImageList'
-import { mockedComplectationsData, mockedDetailsData } from '../../services/mockedData'
+import { imageUrls, mockedComplectationsData, mockedDetailsData } from '../../services/mockedData'
 import { useDropzone } from 'react-dropzone';
 import DetailsTable from '../../components/DetailsTable';
 import DeleteIcon from '../../icons/DeleteIcon';
@@ -25,6 +25,7 @@ import { useIsAdmin } from '../../hooks/useIsAdmin.js';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DialogConfirmCancel from '../../components/DialogConfirmCancel';
 import { useNavigate } from 'react-router-dom';
+import { handleExportFile } from '../../helpers/exportFile';
 
 const DropzoneWrapperStyles = styled('div')(({ theme }) => ({
    width: '100%',
@@ -33,7 +34,8 @@ const DropzoneWrapperStyles = styled('div')(({ theme }) => ({
    borderRadius: '6px',
    display: 'flex',
    flexDirection: 'column',
-   alignItems: 'center'
+   alignItems: 'center',
+   marginTop: '10px'
 }));
 
 const DropzoneStyles = styled('div')(({ theme }) => ({
@@ -76,17 +78,17 @@ const ConfigurationDetailPage = () => {
    const isAdmin = useIsAdmin();
    const navigate = useNavigate();
 
+   const [isEditingMode, setIsEditingMode] = useState(false);
    const [uploadedImages, setUploadedImages] = useState([]);
    const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
    const currentProjectId = useSelector(state => state.project.currentProjectId);
 
-   const openRemoveDialog = () => setIsRemoveDialogOpen(true)
-
-   const closeRemoveDialog = () => setIsRemoveDialogOpen(false)
+   const openRemoveDialog = () => setIsRemoveDialogOpen(true);
+   const closeRemoveDialog = () => setIsRemoveDialogOpen(false);
 
    const onRemove = () => {
       closeRemoveDialog()
-   }
+   };
 
    const handleRemove = (index) => {
       setUploadedImages((prevImages) =>
@@ -106,6 +108,12 @@ const ConfigurationDetailPage = () => {
       }
    });
 
+   async function fetchImagesAsBlobs(linksArray) {
+      const promisesArray = linksArray.map((link) => fetch(link).then((r) => r.blob()));
+      const blobsArray = await Promise.all(promisesArray);
+      return blobsArray;
+   };
+
    return (
       <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '25px' }}>
 
@@ -118,10 +126,17 @@ const ConfigurationDetailPage = () => {
             </Button>
          </Box>
 
+         {uploadedImages.length > 0 &&
+            <SingleLineImageList images={uploadedImages} />
+         }
 
-         <SingleLineImageList images={uploadedImages} />
+         {uploadedImages.length === 0 &&
+            <Box marginTop='30px' sx={{ border: '2px solid #E8E8E8', height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+               <Typography textAlign='center'>Жодного фото ще не завантажено</Typography>
+            </Box>
+         }
 
-         {isAdmin &&
+         {isEditingMode &&
             <DropzoneWrapperStyles>
                <DropzoneStyles {...getRootProps()}>
                   <DropzoneTextStyles>Перетягніть файли сюди або натисніть, щоб вибрати зображення</DropzoneTextStyles>
@@ -133,7 +148,7 @@ const ConfigurationDetailPage = () => {
                         {uploadedImages.map((image, index) => {
                            const imageUrl = URL.createObjectURL(image);
                            return (
-                              <Grid item key={index} sx={{ position: 'relative' }}>
+                              <Grid item key={index} sx={{ position: 'relative', marginLeft: '10px' }}>
                                  <ImageStyles src={imageUrl} alt={image.name} />
                                  <IconButton aria-label="remove"
                                     sx={{ position: 'absolute', bottom: '0px', right: '0px' }}
@@ -165,12 +180,15 @@ const ConfigurationDetailPage = () => {
                         <TableCell align="left">Параметер 2</TableCell>
                         <TableCell align="left">Параметер 3</TableCell>
                         <TableCell align="left">Параметер 4</TableCell>
+                        {isEditingMode &&
+                           <TableCell align="left">Видалення</TableCell>
+                        }
                      </TableRow>
                   </TableHead>
                   <TableBody>
                      {mockedComplectationsData.map((project, index) => (
                         <TableRow key={project.id}>
-                           {!isAdmin &&
+                           {!isEditingMode &&
                               <>
                                  <TableCell align="left">{project.param1}</TableCell>
                                  <TableCell align="left">{project.param2}</TableCell>
@@ -179,7 +197,7 @@ const ConfigurationDetailPage = () => {
                               </>
                            }
 
-                           {isAdmin &&
+                           {isEditingMode &&
                               <>
                                  <TableCell align="left">
                                     <InputBase
@@ -213,6 +231,13 @@ const ConfigurationDetailPage = () => {
                                        sx={{ fontSize: '14px', fontWeight: '400' }}
                                     />
                                  </TableCell>
+                                 <TableCell align="center">
+                                    <IconButton aria-label="remove"
+                                       onClick={() => console.log('remove')}
+                                    >
+                                       <DeleteIcon />
+                                    </IconButton>
+                                 </TableCell>
                               </>
                            }
                         </TableRow>
@@ -223,14 +248,33 @@ const ConfigurationDetailPage = () => {
          </Box>
 
          <Box mt='30px' mb='30px' sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
-            <Button variant="outlined">
-               Завантажити файл
-            </Button>
+            {!isEditingMode &&
+               <Button variant="outlined"
+                  onClick={() => handleExportFile(fetchImagesAsBlobs(imageUrls), mockedDetailsData, mockedComplectationsData)}>
+                  Завантажити файл
+               </Button>
+            }
 
             {isAdmin &&
-               <Button style={{ marginLeft: '30px' }} variant="outlined" onClick={openRemoveDialog}>
-                  Зберегти зміни
-               </Button>
+               <>
+                  {!isEditingMode &&
+                     <Button style={{ marginLeft: '30px' }} variant="outlined" onClick={() => setIsEditingMode(true)}>
+                        Внести зміни
+                     </Button>
+                  }
+
+                  {isEditingMode &&
+                     <>
+                        <Button style={{ marginLeft: '30px' }} variant="outlined" onClick={() => setIsEditingMode(false)}>
+                           Скасувати зміни
+                        </Button>
+
+                        <Button style={{ marginLeft: '30px' }} variant="outlined" onClick={openRemoveDialog}>
+                           Зберегти зміни
+                        </Button>
+                     </>
+                  }
+               </>
             }
          </Box>
 
