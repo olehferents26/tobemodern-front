@@ -277,3 +277,9 @@ export const mockedComplectationsData = [
       param4: 'Значення 4',
    },
 ]
+
+export const imageUrls = [
+   "https://raw.githubusercontent.com/dolanmiu/docx/master/demo/images/cat.jpg",
+   "https://raw.githubusercontent.com/dolanmiu/docx/master/demo/images/cat.jpg",
+   "https://raw.githubusercontent.com/dolanmiu/docx/master/demo/images/cat.jpg",
+];
