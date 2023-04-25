@@ -13,7 +13,7 @@ const EmployeesPage = () => {
   const closeAddForm = () => setIsAddFormOpen(false)
 
   return (
-    <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '25px' }}>
+    <Box sx={{ width: '70%', paddingLeft: '50px', paddingRight: '50px', marginTop: '25px' }}>
       <Box sx={{ display: 'flex', justifyContent: 'end' }}>
         <AddButton text="Додати працівника" onClick={openAddForm}/>
       </Box>

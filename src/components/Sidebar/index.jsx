@@ -7,10 +7,11 @@ import ProjectsIcon from '../../icons/ProjectsIcon.jsx'
 import AddButton from '../AddButton/index.jsx'
 import Dialog from '../Dialog/index.jsx'
 import NewProjectForm from '../NewProjectForm/index.jsx'
+import SettingsIcon from '../../icons/SettingsIcon.jsx'
 
 const Container = styled(Box)(({ theme }) => ({
   backgroundColor: theme.palette.primary.light,
-  width: '340px',
+  minWidth: '340px',
   minHeight: '100vh',
   display: 'flex',
   flexDirection: 'column',
@@ -42,7 +43,7 @@ const sidebarItems = [
   },
   {
     name: 'Налаштування',
-    icon: <ProjectsIcon/>,
+    icon: <SettingsIcon/>,
     path: '/dashboard/settings',
   },
 ]

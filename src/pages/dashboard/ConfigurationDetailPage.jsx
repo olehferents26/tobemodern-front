@@ -12,7 +12,7 @@ import {
    TableRow,
    Paper,
    InputBase,
-   Button
+/*    Button */
 } from '@mui/material'
 import { styled } from '@mui/material';
 import { useSelector } from 'react-redux'
@@ -26,6 +26,7 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import DialogConfirmCancel from '../../components/DialogConfirmCancel';
 import { useNavigate } from 'react-router-dom';
 import { handleExportFile } from '../../helpers/exportFile';
+import Button from '../../components/Button';
 
 const DropzoneWrapperStyles = styled('div')(({ theme }) => ({
    width: '100%',
@@ -54,7 +55,6 @@ const DropzoneStyles = styled('div')(({ theme }) => ({
 const DropzoneTextStyles = styled('p')(({ theme }) => ({
    textAlign: 'center',
    fontStyle: 'italic',
-   marginTop: '40px'
 }));
 
 const PreviewContainerStyles = styled('div')(({ theme }) => ({
@@ -115,7 +115,7 @@ const ConfigurationDetailPage = () => {
    };
 
    return (
-      <Box sx={{ width: '70%', paddingLeft: '72px', paddingRight: '72px', marginTop: '25px' }}>
+      <Box sx={{ width: '70%', paddingLeft: '50px', paddingRight: '40px', marginTop: '25px' }}>
 
          <Box mt='15px'>
             <Button variant="outlined"
@@ -139,10 +139,15 @@ const ConfigurationDetailPage = () => {
          {isEditingMode &&
             <DropzoneWrapperStyles>
                <DropzoneStyles {...getRootProps()}>
-                  <DropzoneTextStyles>Перетягніть файли сюди або натисніть, щоб вибрати зображення</DropzoneTextStyles>
+                  <DropzoneTextStyles style={{ marginTop: '40px' }}>
+                     Перетягніть файли сюди або натисніть, щоб вибрати зображення
+                  </DropzoneTextStyles>
                </DropzoneStyles>
 
                <PreviewContainerStyles>
+                  <DropzoneTextStyles style={{ margin: '0', paddingLeft: '15px' }}>
+                     Спершу додайте основну світлину*
+                  </DropzoneTextStyles>
                   {uploadedImages.length > 0 && (
                      <Grid m='10px' container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
                         {uploadedImages.map((image, index) => {
@@ -190,7 +195,7 @@ const ConfigurationDetailPage = () => {
                         <TableRow key={project.id}>
                            {!isEditingMode &&
                               <>
-                                 <TableCell align="left">{project.param1}</TableCell>
+                                 <TableCell align="left">{project.param2}</TableCell>
                                  <TableCell align="left">{project.param2}</TableCell>
                                  <TableCell align="left">{project.param3}</TableCell>
                                  <TableCell align="left">{project.param4}</TableCell>
@@ -269,7 +274,7 @@ const ConfigurationDetailPage = () => {
                            Скасувати зміни
                         </Button>
 
-                        <Button style={{ marginLeft: '30px' }} variant="outlined" onClick={openRemoveDialog}>
+                  <Button autoFocus style={{ marginLeft: '30px' }} variant="contained" onClick={openRemoveDialog}>
                            Зберегти зміни
                         </Button>
                      </>
