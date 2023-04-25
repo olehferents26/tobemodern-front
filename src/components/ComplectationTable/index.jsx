@@ -9,8 +9,15 @@ import {
    TableContainer,
    TableHead,
    TableRow,
-   Paper
+   Paper,
+   styled
 } from '@mui/material';
+
+const ImageStyles = styled('img')(({ theme }) => ({
+   width: '200px',
+   height: '100px',
+   objectFit: 'contain'
+}));
 
 const ComplectationTable = (props) => {
    const { complectationsData } = props;
@@ -24,7 +31,7 @@ const ComplectationTable = (props) => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <TableRow>
-                     <TableCell align="left">Параметер 1</TableCell>
+                     <TableCell width='200px' align="left">Виріб</TableCell>
                      <TableCell align="left">Параметер 2</TableCell>
                      <TableCell align="left">Параметер 3</TableCell>
                      <TableCell align="left">Параметер 4</TableCell>
@@ -38,7 +45,7 @@ const ComplectationTable = (props) => {
                            align="left"
                            sx={{cursor: 'pointer'}}
                         >
-                           {project.param1}
+                           <ImageStyles src={project.param1} alt={'photo'} />
                         </TableCell>
                         <TableCell align="left">{project.param2}</TableCell>
                         <TableCell align="left">{project.param3}</TableCell>

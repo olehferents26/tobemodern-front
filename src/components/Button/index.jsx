@@ -1,12 +1,12 @@
 import { Button as MuiButton } from '@mui/material'
 
-const Button = ({ children, ...props }) => {
+const Button = ({ children, width, height, ...props }) => {
   return (
     <MuiButton
       {...props}
       sx={{
-        width: '189px',
-        height: '68px',
+        width: width,
+        height: height,
         alignSelf: 'center',
         borderRadius: '6px',
       }}

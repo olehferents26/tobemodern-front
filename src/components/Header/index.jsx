@@ -1,25 +1,47 @@
-import { AppBar, Box, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography } from '@mui/material'
+import { AppBar, Box, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useGetCurrentUserQuery } from '../../services/userApi'
 import SearchIcon from '@mui/icons-material/Search'
 import { Search, SearchIconWrapper, StyledInputBase } from './styles'
 import { useSelector } from 'react-redux'
+import BurgerMenu from '../BurgerMenu/BurgerMenu'
 
 const UserInfo = () => {
-  const { data: user } = useGetCurrentUserQuery()
+  const { data: user } = useGetCurrentUserQuery();
+  const isTablet = useMediaQuery('(max-width:1100px)');
+
   return (
     <Box sx={{
-      height: '86px',
-      width: '200px',
       display: 'flex',
       justifyContent: 'center',
-      flexDirection: 'column',
+      alignItems: 'center',
       paddingLeft: '49px',
     }}>
-      <Typography fontWeight="bold">{user?.firstName} {user?.lastName}</Typography>
-      <Typography fontWeight="500">{user?.role}</Typography>
+      {isTablet &&
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '50px',
+          height: '100%'
+        }}>
+          <BurgerMenu />
+        </Box>
+      }
+      <Box sx={{
+        height: '86px',
+        width: '200px',
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'column',
+        paddingLeft: '20px',
+      }}>
+        <Typography fontWeight="bold">{user?.firstName} {user?.lastName}</Typography>
+        <Typography fontWeight="500">{user?.role}</Typography>
+      </Box>
     </Box>
+
   )
 }
 
