@@ -26,7 +26,7 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 }));
 
 const ProjectDetailsPage = () => {
-   const [currentSection, setCurrentSection] = useState('inProgress')
+   const [currentSection, setCurrentSection] = useState('Operations')
 
    return (
       <Box sx={{ width: '70%', paddingLeft: '50px', paddingRight: '50px', marginTop: '10px' }}>
@@ -35,10 +35,7 @@ const ProjectDetailsPage = () => {
                {'Назва проекту'}
             </Typography>
 
-            <Box ml='70px' sx={{ width: '500px', display: 'flex', justifyContent: 'space-between' }}>
-               <ButtonStyle onClick={() => setCurrentSection('inProgress')}>
-                  В прогресі
-               </ButtonStyle>
+            <Box sx={{ width: '400px', minWidth: '350px', display: 'flex', justifyContent: 'space-between' }}>
                <ButtonStyle onClick={() => setCurrentSection('Operations')}>
                   Операції
                </ButtonStyle>

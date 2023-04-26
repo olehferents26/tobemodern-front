@@ -38,9 +38,9 @@ const DetailsTable = (props) => {
                <TableHead>
                   <TableRow>
                      <TableCell align="left">Найменування</TableCell>
-                     <TableCell align="left">Матеріал</TableCell>
                      <TableCell align="left">Виріб</TableCell>
-                   
+                     <TableCell align="left">Кількість</TableCell>
+                    
                      <TableCell align="left">Товщина</TableCell>
                      <TableCell align="left">Довжина</TableCell>
                      <TableCell align="left">Ширина</TableCell>
@@ -53,8 +53,10 @@ const DetailsTable = (props) => {
                      <TableCell align="left">Паз</TableCell>
                      <TableCell align="left">Сверління</TableCell>
                      <TableCell align="left">Фрезерування</TableCell>
+                     <TableCell align="left">Матеріал</TableCell>
+                     
+                     
                      <TableCell align="left">Опис</TableCell>
-                     <TableCell align="left">Кількість</TableCell>
                      <TableCell align="left">Статус</TableCell>
                   </TableRow>
                </TableHead>
@@ -64,27 +66,25 @@ const DetailsTable = (props) => {
                         key={project.id}
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                      >
-                        <TableCell component="th" scope="row">
-                           {project.name}
-                        </TableCell>
-                        <TableCell align="left">{project.param1}</TableCell>
-                        <TableCell align="left">{project.param2}</TableCell>
-                        <TableCell align="left">{project.param3}</TableCell>
-                        <TableCell align="left">{project.param4}</TableCell>
-                        <TableCell align="left">{project.param5}</TableCell>
-                        <TableCell align="left">{project.param6}</TableCell>
-                        <TableCell align="left" width='200px'>{project.param7}</TableCell>
-                        <TableCell align="left">{project.param8}</TableCell>
-                        <TableCell align="left">{project.param9}</TableCell>
-                        <TableCell align="left">{project.param10}</TableCell>
-                        <TableCell align="left">{project.param11}</TableCell>
-                        <TableCell align="left">{project.param12}</TableCell>
-                        <TableCell align="left">{project.param13}</TableCell>
-                        <TableCell align="left">{project.param14}</TableCell>
+                        <TableCell>{project.name}</TableCell>
+                        <TableCell align="left">{project.product}</TableCell>
+                        <TableCell align="center">{project.amount}</TableCell>
+                        <TableCell align="left">{project.thickness}</TableCell>
+                        <TableCell align="left">{project.length}</TableCell>
+                        <TableCell align="left">{project.width}</TableCell>
+                        <TableCell align="left">{project.topLength}</TableCell>
+                        <TableCell align="left">{project.bottomLength}</TableCell>
+                        <TableCell align="left">{project.rightWidth}</TableCell>
+                        <TableCell align="left">{project.leftWidth}</TableCell>
+                        <TableCell align="left">{project.path}</TableCell>
+                        <TableCell align="left">{project.drilling}</TableCell>
+                        <TableCell align="left">{project.milling}</TableCell>
+                        <TableCell align="left">{project.material}</TableCell>
+                        <TableCell align="left">{project.desc}</TableCell>
                         <TableCell>
                            <FormControl sx={{ m: 1, minWidth: 120 }}>
                               <Select
-                                 value={project.param15}
+                                 value={project.status}
                                  onChange={handleChangeStatus}
                                  displayEmpty
                                  inputProps={{ 'aria-label': 'Without label' }}
