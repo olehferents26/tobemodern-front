@@ -1,13 +1,24 @@
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import React from 'react'
-import AddButton from '../../components/AddButton/index.jsx'
 import ProjectsTable from '../../components/ProjectsTable/index.jsx'
 
 const ProjectsPage = () => {
+  const isTablet = useMediaQuery('(max-width:1100px)');
+
   return (
-    <Box sx={{ width: '70%', paddingLeft: '50px', paddingRight: '50px', marginTop: '25px' }}>
-      <ProjectsTable />
-    </Box>
+    <>
+      {isTablet &&
+        <Box sx={{  paddingLeft: '30px', paddingRight: '30px', marginTop: '25px' }}>
+          <ProjectsTable />
+        </Box>
+      }
+
+      {!isTablet &&
+        <Box sx={{ width: '70%', paddingLeft: '50px', paddingRight: '50px', marginTop: '25px' }}>
+          <ProjectsTable />
+        </Box>
+      }
+    </>
   )
 }
 
