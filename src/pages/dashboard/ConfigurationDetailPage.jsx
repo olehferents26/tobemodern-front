@@ -80,17 +80,20 @@ const ConfigurationDetailPage = () => {
 
    const [isEditingMode, setIsEditingMode] = useState(false);
    const [uploadedImages, setUploadedImages] = useState([]);
-   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+   const [isSaveDialogOpen, setIsSaveDialogOpen] = useState(false);
+   const [isCancelDialogOpen, setIsCancelDialogOpen] = useState(false);
    const currentProjectId = useSelector(state => state.project.currentProjectId);
 
-   const openRemoveDialog = () => setIsRemoveDialogOpen(true);
-   const closeRemoveDialog = () => setIsRemoveDialogOpen(false);
+   const openSaveDialog = () => setIsSaveDialogOpen(true);
+   const closeSaveDialog = () => setIsSaveDialogOpen(false);
+   const openCancelDialog = () => setIsCancelDialogOpen(true);
+   const closeCancelDialog = () => setIsCancelDialogOpen(false);
 
-   const onRemove = () => {
-      closeRemoveDialog()
+   const onSave = () => {
+      closeSaveDialog()
    };
 
-   const handleRemove = (index) => {
+   const handleSave = (index) => {
       setUploadedImages((prevImages) =>
          prevImages.filter((image, i) => i !== index)
       );
@@ -120,7 +123,11 @@ const ConfigurationDetailPage = () => {
          <Box mt='15px'>
             <Button variant="outlined"
                startIcon={<ArrowBackIosNewIcon />}
-               onClick={() => navigate(`/dashboard/project/${currentProjectId}`)}
+               onClick={() => {
+                  if (isEditingMode) {
+                     openCancelDialog();
+                  } else navigate(`/dashboard/project/${currentProjectId}`)
+               }}
             >
                Назад
             </Button>
@@ -157,7 +164,7 @@ const ConfigurationDetailPage = () => {
                                  <ImageStyles src={imageUrl} alt={image.name} />
                                  <IconButton aria-label="remove"
                                     sx={{ position: 'absolute', bottom: '0px', right: '0px' }}
-                                    onClick={() => handleRemove(index)}
+                                    onClick={() => handleSave(index)}
                                  >
                                     <DeleteIcon />
                                  </IconButton>
@@ -274,7 +281,7 @@ const ConfigurationDetailPage = () => {
                            Скасувати зміни
                         </Button>
 
-                  <Button autoFocus style={{ marginLeft: '30px' }} variant="contained" onClick={openRemoveDialog}>
+                  <Button autoFocus style={{ marginLeft: '30px' }} variant="contained" onClick={openSaveDialog}>
                            Зберегти зміни
                         </Button>
                      </>
@@ -284,11 +291,19 @@ const ConfigurationDetailPage = () => {
          </Box>
 
          <DialogConfirmCancel
-            isOpen={isRemoveDialogOpen}
-            onClose={closeRemoveDialog}
-            onCancel={closeRemoveDialog}
-            onSubmit={onRemove}
+            isOpen={isSaveDialogOpen}
+            onClose={closeSaveDialog}
+            onCancel={closeSaveDialog}
+            onSubmit={onSave}
             titleText="Ви впевнені, що хочете зберегти зміни в цьому файлі?"
+         />
+
+         <DialogConfirmCancel
+            isOpen={isCancelDialogOpen}
+            onClose={closeCancelDialog}
+            onCancel={closeCancelDialog}
+            onSubmit={() => navigate(`/dashboard/project/${currentProjectId}`)}
+            titleText="Ви впевнені, що хочете вийти? Зміни що ви внесли не будуть збережені."
          />
       </Box>
    )
