@@ -12,36 +12,61 @@ const UserInfo = () => {
   const isTablet = useMediaQuery('(max-width:1100px)');
 
   return (
-    <Box sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingLeft: '49px',
-    }}>
+    <>
       {isTablet &&
         <Box sx={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          width: '50px',
-          height: '100%'
+          paddingLeft: '20px',
         }}>
-          <BurgerMenu />
+
+          <Box sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: '50px',
+            height: '100%'
+          }}>
+            <BurgerMenu />
+          </Box>
+
+          <Box sx={{
+            height: '86px',
+            width: '100px',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            paddingLeft: '20px',
+          }}>
+            <Typography fontWeight="bold">{user?.firstName} {user?.lastName}</Typography>
+            <Typography fontWeight="500">{user?.role}</Typography>
+          </Box>
         </Box>
       }
-      <Box sx={{
-        height: '86px',
-        width: '200px',
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        paddingLeft: '20px',
-      }}>
-        <Typography fontWeight="bold">{user?.firstName} {user?.lastName}</Typography>
-        <Typography fontWeight="500">{user?.role}</Typography>
-      </Box>
-    </Box>
 
+      {!isTablet &&
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          paddingLeft: '49px',
+        }}>
+          <Box sx={{
+            height: '86px',
+            width: '200px',
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            paddingLeft: '20px',
+          }}>
+            <Typography fontWeight="bold">{user?.firstName} {user?.lastName}</Typography>
+            <Typography fontWeight="500">{user?.role}</Typography>
+          </Box>
+        </Box>
+      }
+
+    </>
   )
 }
 

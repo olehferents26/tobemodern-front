@@ -22,7 +22,7 @@ const OperationsTable = (props) => {
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <TableRow>
-                     <TableCell align="center" sx={{ maxWidth: '30px' }}>Порядковий номер</TableCell>
+                     <TableCell align="left" sx={{ maxWidth: '40px' }}>Порядковий номер</TableCell>
                      <TableCell align="left">Код операції</TableCell>
                      <TableCell align="left">Операція</TableCell>
                      <TableCell align="center">Статус виконаної роботи</TableCell>
