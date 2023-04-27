@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useGetProjectsQuery } from '../../services/projectApi.js'
 import Table from '../Table/index.jsx'
 import {
-  Box, Typography,
+  Box,
+  Typography,
 }
   from '@mui/material'
 
@@ -40,17 +41,7 @@ const columns = [
       'Високий',
       'Терміновий',
     ]
-  },
-  // {
-  //   key: 'expectedTime',
-  //   value: 'Очікуваний час',
-  //   isEditable: false,
-  // },
-  // {
-  //   key: 'actualTime',
-  //   value: 'Реальний час',
-  //   isEditable: false,
-  // },
+  }
 ]
 
 const ProjectsTable = () => {
@@ -72,7 +63,7 @@ const ProjectsTable = () => {
   return (
     <>
       {projectsTodo &&
-        <Box>
+        <Box >
           <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>В процессі</Typography>
           <Table
             columns={columns}

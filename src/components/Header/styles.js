@@ -35,3 +35,14 @@ export const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }))
+
+export const SearchMobile = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.primary.light,
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.primary.main, 0.20),
+  },
+  width: '250px',
+  height: '40px',
+}))
