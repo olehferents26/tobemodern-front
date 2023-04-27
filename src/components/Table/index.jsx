@@ -8,9 +8,12 @@ import {
   TableBody,
   TableFooter,
   TablePagination,
+  TableContainer,
+  Paper,
   IconButton,
   useTheme,
   Box,
+  useMediaQuery
 }
   from '@mui/material'
 import FirstPageIcon from '@mui/icons-material/FirstPage'
@@ -85,6 +88,8 @@ const TablePaginationActions = ({ count, page, rowsPerPage, onPageChange }) => {
 const Table = ({ columns, data, onUpdate, onDelete }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isMobile = useMediaQuery('(max-width:540px)');
+
   const [rows, setRows] = useState([])
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -184,115 +189,117 @@ const Table = ({ columns, data, onUpdate, onDelete }) => {
   }, [data])
 
   return (
-    <MuiTable size="small">
-      <TableHead>
-        <TableRow>
-          {columns.map(({ key, value }) => {
-            return <TableCell key={key} align="left">{value}</TableCell>
-          })}
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {(rowsPerPage > 0
-          ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-          : rows
-        ).map(row => {
-          return (
-            <Fragment key={row.id}>
-              <TableRow>
-                {columns.map(({ key, isEditable, isDropdown, dropdownOptions }) => {
-                  return (
-                    <Fragment key={`${key}-${row.id}`}>
-                      {isEditable ? (
-                        <TableCellEditable {...{ row, name: key, onChange, isDropdown, dropdownOptions }} />
-                      ) :
-                        <TableCell
-                          sx={{ cursor: 'pointer' }}
-                          onClick={() => {
-                            dispatch(addCurrentProjectId(row.id))
-                            navigate(`/dashboard/project/${row.id}`);
-                          }}>
-                          {row[key]}
-                        </TableCell>}
-                    </Fragment>
-                  )
-                })}
-                {showEditButton ? (
-                  <TableCell>
-                    {row.isEditMode ? (
-                      <>
-                        <IconButton
-                          aria-label="done"
-                          onClick={() => onSubmit(row.id)}
-                        >
-                          <ConfirmIcon />
-                        </IconButton>
-                        <IconButton
-                          aria-label="revert"
-                          onClick={() => onRevert(row.id)}
-                        >
-                          <RevertIcon />
-                        </IconButton>
-                      </>
-                    ) : (
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => onToggleEditMode(row.id)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    )}
-                  </TableCell>
-                ) : (
-                  <TableCell></TableCell>
-                )}
-                {showDeleteButton ? (
-                  <TableCell>
-                    <IconButton aria-label="remove" onClick={() => onDeleteIcon(row.id)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                ) : (
-                  <TableCell></TableCell>
-                )}
-              </TableRow>
-              <DialogConfirmCancel
-                isOpen={isRemoveDialogOpen}
-                onClose={closeRemoveDialog}
-                onCancel={closeRemoveDialog}
-                onSubmit={onRemove}
-                titleText="Ви впевнені, що хочете видалити цього працівника?"
-              />
-            </Fragment>
-          )
-        })}
-        {emptyRows > 0 && (
-          <TableRow style={{ height: 53 * emptyRows }}>
-            <TableCell colSpan={6} />
+    <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px' }}>
+      <MuiTable size="small">
+        <TableHead>
+          <TableRow>
+            {columns.map(({ key, value }) => {
+              return <TableCell key={key} align="left">{value}</TableCell>
+            })}
           </TableRow>
-        )}
-      </TableBody>
-      <TableFooter>
-        <TableRow>
-          <TablePagination
-            rowsPerPageOptions={[5, 10]}
-            colSpan={3}
-            count={rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            SelectProps={{
-              inputProps: {
-                'aria-label': 'rows per page',
-              },
-              native: true,
-            }}
-            onPageChange={handleChangePage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            ActionsComponent={TablePaginationActions}
-          />
-        </TableRow>
-      </TableFooter>
-    </MuiTable>
+        </TableHead>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : rows
+          ).map(row => {
+            return (
+              <Fragment key={row.id}>
+                <TableRow>
+                  {columns.map(({ key, isEditable, isDropdown, dropdownOptions }) => {
+                    return (
+                      <Fragment key={`${key}-${row.id}`}>
+                        {isEditable ? (
+                          <TableCellEditable {...{ row, name: key, onChange, isDropdown, dropdownOptions }} />
+                        ) :
+                          <TableCell
+                            sx={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              dispatch(addCurrentProjectId(row.id))
+                              navigate(`/dashboard/project/${row.id}`);
+                            }}>
+                            {row[key]}
+                          </TableCell>}
+                      </Fragment>
+                    )
+                  })}
+                  {showEditButton ? (
+                    <TableCell>
+                      {row.isEditMode ? (
+                        <>
+                          <IconButton
+                            aria-label="done"
+                            onClick={() => onSubmit(row.id)}
+                          >
+                            <ConfirmIcon />
+                          </IconButton>
+                          <IconButton
+                            aria-label="revert"
+                            onClick={() => onRevert(row.id)}
+                          >
+                            <RevertIcon />
+                          </IconButton>
+                        </>
+                      ) : (
+                        <IconButton
+                          aria-label="delete"
+                          onClick={() => onToggleEditMode(row.id)}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                      )}
+                    </TableCell>
+                  ) : (
+                    <TableCell></TableCell>
+                  )}
+                  {showDeleteButton ? (
+                    <TableCell>
+                      <IconButton aria-label="remove" onClick={() => onDeleteIcon(row.id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  ) : (
+                    <TableCell></TableCell>
+                  )}
+                </TableRow>
+                <DialogConfirmCancel
+                  isOpen={isRemoveDialogOpen}
+                  onClose={closeRemoveDialog}
+                  onCancel={closeRemoveDialog}
+                  onSubmit={onRemove}
+                  titleText="Ви впевнені, що хочете видалити цього працівника?"
+                />
+              </Fragment>
+            )
+          })}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10]}
+              colSpan={3}
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  'aria-label': 'rows per page',
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </MuiTable>
+    </TableContainer>
   )
 }
 

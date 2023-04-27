@@ -8,7 +8,7 @@ const ProjectsPage = () => {
   return (
     <>
       {isTablet &&
-        <Box sx={{  paddingLeft: '30px', paddingRight: '30px', marginTop: '25px' }}>
+        <Box sx={{ width: '100%', paddingLeft: '30px', paddingRight: '30px', marginTop: '25px' }}>
           <ProjectsTable />
         </Box>
       }

@@ -8,17 +8,19 @@ import {
    TableContainer,
    TableHead,
    TableRow,
-   Paper
+   Paper,
+   useMediaQuery
 } from '@mui/material';
 
 const OperationsTable = (props) => {
    const { operationsData } = props;
+   const isMobile = useMediaQuery('(max-width:540px)');
 
    return (
       <Box>
          <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Операції</Typography>
 
-         <TableContainer component={Paper} sx={{maxWidth: '900px'}}>
+         <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px' }}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                <TableHead>
                   <TableRow>

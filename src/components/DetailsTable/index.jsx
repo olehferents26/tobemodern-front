@@ -17,7 +17,7 @@ import {
 
 const DetailsTable = (props) => {
    const { title, detailsData } = props;
-   const isTablet = useMediaQuery('(max-width:1100px)');
+   const isMobile = useMediaQuery('(max-width:540px)');
    const [status, setStatus] = React.useState('');
 
    const handleChangeStatus = (event) => {
@@ -32,8 +32,8 @@ const DetailsTable = (props) => {
       <Box>
          <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>{title}</Typography>
 
-         <TableContainer component={Paper} sx={{/*  width: '100%', */ maxHeight: 450 }}>
-            <Table stickyHeader /* sx={{ minWidth: 650 }} */ aria-label="simple table">
+         <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px', maxHeight: 450 }}>
+            <Table stickyHeader aria-label="simple table">
                <TableHead>
                   <TableRow>
                      <TableCell align="left">Найменування</TableCell>

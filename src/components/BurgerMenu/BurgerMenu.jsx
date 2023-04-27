@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
    Box,
    Drawer,
@@ -7,7 +7,7 @@ import {
    ListItemButton,
    ListItemIcon,
    ListItemText,
-   IconButton
+   IconButton,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ProjectsIcon from '../../icons/ProjectsIcon';
@@ -15,10 +15,21 @@ import EmployeeIcon from '../../icons/EmployeeIcon';
 import SettingsIcon from '../../icons/SettingsIcon';
 import { useIsAdmin } from '../../hooks/useIsAdmin';
 import AddButton from '../AddButton';
+import { useNavigate } from 'react-router-dom';
+import Dialog from '../Dialog';
+import NewProjectForm from '../NewProjectForm';
 
 const BurgerMenu = () => {
-   const isAdmin = useIsAdmin()
-   const [open, setOpen] = React.useState(false);
+   const isAdmin = useIsAdmin();
+   const navigate = useNavigate();
+   const [open, setOpen] = useState(false);
+   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
+
+   const openNewProjectModal = () => {
+      setIsNewProjectModalOpen(true)
+   }
+
+   const onClose = () => setIsNewProjectModalOpen(false)
 
    const handleDrawerOpen = () => {
       setOpen(true);
@@ -55,7 +66,7 @@ const BurgerMenu = () => {
                   {isAdmin &&
                      <List>
                         <ListItem disablePadding>
-                           <ListItemButton>
+                           <ListItemButton onClick={openNewProjectModal}>
                               <AddButton text="Новий проект" />
                            </ListItemButton>
                         </ListItem>
@@ -64,7 +75,7 @@ const BurgerMenu = () => {
                   
                   <List>
                      <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => navigate('/dashboard/projects')}>
                            <ListItemIcon>
                               <ProjectsIcon />
                            </ListItemIcon>
@@ -75,7 +86,7 @@ const BurgerMenu = () => {
 
                   <List>
                      <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => navigate('/dashboard/employees')}>
                            <ListItemIcon>
                               <EmployeeIcon />
                            </ListItemIcon>
@@ -86,7 +97,7 @@ const BurgerMenu = () => {
 
                   <List>
                      <ListItem disablePadding>
-                        <ListItemButton>
+                        <ListItemButton onClick={() => navigate('/dashboard/settings')}>
                            <ListItemIcon>
                               <SettingsIcon />
                            </ListItemIcon>
@@ -97,6 +108,9 @@ const BurgerMenu = () => {
                </Box>
             </Drawer>
          </React.Fragment>
+         <Dialog isOpen={isNewProjectModalOpen} onClose={onClose}>
+            <NewProjectForm onCancel={onClose} />
+         </Dialog>
       </Box>
    );
 };

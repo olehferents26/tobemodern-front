@@ -78,6 +78,7 @@ const ConfigurationDetailPage = () => {
    const isAdmin = useIsAdmin();
    const navigate = useNavigate();
    const isTablet = useMediaQuery('(max-width:1100px)');
+   const isMobile = useMediaQuery('(max-width:540px)');
 
    const [isEditingMode, setIsEditingMode] = useState(false);
    const [uploadedImages, setUploadedImages] = useState([]);
@@ -187,8 +188,8 @@ const ConfigurationDetailPage = () => {
                <Box mt='30px'>
                   <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Фурнітура</Typography>
 
-                  <TableContainer component={Paper}>
-                     <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                  <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px' }}>
+                     <Table  aria-label="simple table">
                         <TableHead>
                            <TableRow>
                               <TableCell align="left">Параметер 1</TableCell>
