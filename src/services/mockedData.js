@@ -217,6 +217,43 @@ export const mockedComplectationsData = [
    },
 ]
 
+export const mockedFurnitureData = [
+   {
+      id: 1,
+      param1: 'Петля 1',
+      param2: 'RFT-315',
+      param3: '4',
+      param4: '7',
+   }, {
+      id: 2,
+      param1: 'Петля 2',
+      param2: 'RFT-315',
+      param3: '4',
+      param4: '7',
+   },
+   {
+      id: 3,
+      param1: 'Петля 3',
+      param2: 'RFT-315',
+      param3: '4',
+      param4: '7',
+   },
+   {
+      id: 4,
+      param1: 'Петля 4',
+      param2: 'RFT-315',
+      param3: '4',
+      param4: '7',
+   },
+   {
+      id: 5,
+      param1: 'Петля 5',
+      param2: 'RFT-315',
+      param3: '4',
+      param4: '7',
+   },
+]
+
 export const imageUrls = [
    "https://raw.githubusercontent.com/dolanmiu/docx/master/demo/images/cat.jpg",
    "https://raw.githubusercontent.com/dolanmiu/docx/master/demo/images/cat.jpg",
