@@ -1,6 +1,7 @@
 import { Box, useMediaQuery } from '@mui/material'
 import React from 'react'
 import ProjectsTable from '../../components/ProjectsTable/index.jsx'
+import FurnitureTable from '../../components/FurnitureTable/FurnitureTable.jsx';
 
 const ProjectsPage = () => {
   const isTablet = useMediaQuery('(max-width:1100px)');

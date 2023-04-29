@@ -32,12 +32,11 @@ const DetailsTable = (props) => {
       <Box>
          <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>{title}</Typography>
 
-         <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px', maxHeight: 450 }}>
+         <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '100%', maxHeight: 450 }}>
             <Table stickyHeader aria-label="simple table">
                <TableHead>
                   <TableRow>
                      <TableCell align="left">Найменування</TableCell>
-                     <TableCell align="left">Виріб</TableCell>
                      <TableCell align="left">Кількість</TableCell>
 
                      <TableCell align="left">Товщина</TableCell>
@@ -54,9 +53,8 @@ const DetailsTable = (props) => {
                      <TableCell align="left">Фрезерування</TableCell>
                      <TableCell align="left">Матеріал</TableCell>
 
-
                      <TableCell align="left">Опис</TableCell>
-                     <TableCell align="left">Статус</TableCell>
+                    {/*  <TableCell align="left">Статус</TableCell> */}
                   </TableRow>
                </TableHead>
                <TableBody>
@@ -66,7 +64,6 @@ const DetailsTable = (props) => {
                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                      >
                         <TableCell>{project.name}</TableCell>
-                        <TableCell align="left">{project.product}</TableCell>
                         <TableCell align="center">{project.amount}</TableCell>
                         <TableCell align="left">{project.thickness}</TableCell>
                         <TableCell align="left">{project.length}</TableCell>
@@ -79,8 +76,8 @@ const DetailsTable = (props) => {
                         <TableCell align="left">{project.drilling}</TableCell>
                         <TableCell align="left">{project.milling}</TableCell>
                         <TableCell align="left">{project.material}</TableCell>
-                        <TableCell align="left">{project.desc}</TableCell>
-                        <TableCell>
+                        <TableCell sx={{ minWidth: '90px' }} align="left">{project.desc}</TableCell>
+                        {/* <TableCell>
                            <FormControl sx={{ m: 1, minWidth: 120 }}>
                               <Select
                                  value={project.status}
@@ -95,7 +92,7 @@ const DetailsTable = (props) => {
                                  <MenuItem value='Брак'>Брак</MenuItem>
                               </Select>
                            </FormControl>
-                        </TableCell>
+                        </TableCell> */}
                      </TableRow>
                   ))}
                </TableBody>
