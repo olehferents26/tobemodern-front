@@ -12,7 +12,7 @@ import BurgerMenu from '../BurgerMenu/BurgerMenu'
 const UserInfo = () => {
   const { data: user } = useGetCurrentUserQuery();
   const isDesktop = useMediaQuery('(min-width:1100px)');
-  const isTablet = useMediaQuery('(min-width: 768px) and (max-width: 1100px)');
+  const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1100px)');
   const isMobile = useMediaQuery('(max-width:768px)');
 
   return (
@@ -192,6 +192,7 @@ const EmployeeHeader = () => {
           </Box>
         </Box>
       }
+      
       {!isMobile &&
         <>
           <UserInfo />
