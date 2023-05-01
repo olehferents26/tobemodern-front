@@ -30,7 +30,7 @@ const finalSpaceCharacters = [
    }
 ]
 
-function App() {
+const TouchTable = () => {
    const [characters, updateCharacters] = useState(finalSpaceCharacters);
 
    function handleOnDragEnd(result) {
@@ -76,4 +76,4 @@ function App() {
    );
 }
 
-export default App;
+export default TouchTable;

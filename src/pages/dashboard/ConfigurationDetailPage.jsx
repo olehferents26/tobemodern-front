@@ -15,6 +15,7 @@ import {
    InputBase,
    useMediaQuery
 } from '@mui/material'
+import DragHandleIcon from '@mui/icons-material/DragHandle';
 import { styled } from '@mui/material';
 import { useSelector } from 'react-redux'
 import SingleLineImageList from '../../components/ImageList'
@@ -28,7 +29,7 @@ import DialogConfirmCancel from '../../components/DialogConfirmCancel';
 import { useNavigate } from 'react-router-dom';
 import { handleExportFile } from '../../helpers/exportFile';
 import Button from '../../components/Button';
-import FurnitureTable from '../../components/FurnitureTable/FurnitureTable';
+import TouchTable from '../../components/FurnitureTable/FurnitureTable';
 
 const DropzoneWrapperStyles = styled('div')(({ theme }) => ({
    width: '100%',
@@ -202,78 +203,111 @@ const ConfigurationDetailPage = () => {
                <Box mt='30px'>
                   <Typography mb='10px' fontSize={26} fontWeight={600} color='#464646'>Фурнітура</Typography>
 
-                  <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px' }}>
-                     <Table aria-label="simple table">
-                        <TableHead>
-                           <TableRow>
-                              <TableCell align="left">Найменування</TableCell>
-                              <TableCell align="left">Код виробу</TableCell>
-                              <TableCell align="center">Кількість</TableCell>
-                              {isEditingMode &&
-                                 <TableCell align="left">Видалення</TableCell>
-                              }
-                           </TableRow>
-                        </TableHead>
-                        <TableBody>
-                           {mockedFurnitureData.map((project, index) => (
-                              <TableRow key={project.id}>
-                                 {!isEditingMode &&
-                                    <>
-                                       <TableCell align="left">{project.param1}</TableCell>
-                                       <TableCell align="left">{project.param2}</TableCell>
-                                       <TableCell align="left">{project.param3}</TableCell>
-                                       <TableCell align="left">{project.param4}</TableCell>
-                                    </>
-                                 }
-
-                                 {isEditingMode &&
-                                    <>
-                                       <TableCell align="left">
-                                          <InputBase
-                                             fullWidth
-                                             multiline
-                                             defaultValue={project.param1}
-                                             sx={{ fontSize: '14px', fontWeight: '400' }}
-                                          />
-                                       </TableCell>
-                                       <TableCell align="left">
-                                          <InputBase
-                                             fullWidth
-                                             multiline
-                                             defaultValue={project.param2}
-                                             sx={{ fontSize: '14px', fontWeight: '400' }}
-                                          />
-                                       </TableCell>
-                                       <TableCell align="left">
-                                          <InputBase
-                                             fullWidth
-                                             multiline
-                                             defaultValue={project.param3}
-                                             sx={{ fontSize: '14px', fontWeight: '400' }}
-                                          />
-                                       </TableCell>
-                                       <TableCell align="left">
-                                          <InputBase
-                                             fullWidth
-                                             multiline
-                                             defaultValue={project.param4}
-                                             sx={{ fontSize: '14px', fontWeight: '400' }}
-                                          />
-                                       </TableCell>
-                                       <TableCell align="center">
-                                          <IconButton aria-label="remove"
-                                             onClick={() => console.log('remove')}
-                                          >
-                                             <DeleteIcon />
-                                          </IconButton>
-                                       </TableCell>
-                                    </>
-                                 }
+                  {!isEditingMode &&
+                     <TableContainer component={Paper} sx={{ maxWidth: isMobile ? '350px' : '900px' }}>
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                           <TableHead>
+                              <TableRow>
+                                 <TableCell align="left">Найменування</TableCell>
+                                 <TableCell align="left">Код виробу</TableCell>
+                                 <TableCell align="center">Кількість</TableCell>
+                                 <TableCell align="center">Параметер 4</TableCell>
                               </TableRow>
-                           ))}
-                        </TableBody>
-                     </Table>
-                  </TableContainer>
+                           </TableHead>
+                           <TableBody>
+                              {mockedFurnitureData.map((project, index) => (
+                                 <TableRow key={project.id}>
+                                    <TableCell align="left">{project.param1}</TableCell>
+                                    <TableCell align="left">{project.param2}</TableCell>
+                                    <TableCell align="center">{project.param3}</TableCell>
+                                    <TableCell align="center">{project.param4}</TableCell>
+                                 </TableRow>
+                              ))}
+                           </TableBody>
+                        </Table>
+                     </TableContainer>
+                  }
+
+                  {isEditingMode &&
+                     <DragDropContext onDragEnd={handleOnDragEnd}>
+                        <Droppable droppableId="characters">
+                           {(provided) => (
+                              <TableContainer
+                                 component={Paper}
+                                 {...provided.droppableProps}
+                                 ref={provided.innerRef}
+                                 sx={{ maxWidth: isMobile ? '350px' : '900px' }}>
+                                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                                    <TableHead>
+                                       <TableRow>
+                                          <TableCell align="left"></TableCell>
+                                          <TableCell align="left">Найменування</TableCell>
+                                          <TableCell align="left">Код виробу</TableCell>
+                                          <TableCell align="center">Кількість</TableCell>
+                                          <TableCell align="center">Параметер 4</TableCell>
+                                          <TableCell align="left">Видалення</TableCell>
+                                       </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                       {characters.map((project, index) => {
+                                          return (
+                                             <Draggable key={project.id} draggableId={String(project.id)} index={index}>
+                                                {(provided) => (
+                                                   <TableRow ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                      <TableCell align="left">
+                                                         <DragHandleIcon sx={{ color: '#807396'}}/>
+                                                      </TableCell>
+                                                      <TableCell align="left">
+                                                         <InputBase
+                                                            fullWidth
+                                                            multiline
+                                                            defaultValue={project.param1}
+                                                            sx={{ fontSize: '14px', fontWeight: '400'}}
+                                                         />
+                                                      </TableCell>
+                                                      <TableCell align="left">
+                                                         <InputBase
+                                                            fullWidth
+                                                            multiline
+                                                            defaultValue={project.param2}
+                                                            sx={{ fontSize: '14px', fontWeight: '400' }}
+                                                         />
+                                                      </TableCell>
+                                                      <TableCell align="center">
+                                                         <InputBase
+                                                            fullWidth
+                                                            multiline
+                                                            defaultValue={project.param3}
+                                                            sx={{ fontSize: '14px', fontWeight: '400'}}
+                                                         />
+                                                      </TableCell>
+                                                      <TableCell align="center">
+                                                         <InputBase
+                                                            fullWidth
+                                                            multiline
+                                                            defaultValue={project.param4}
+                                                            sx={{ fontSize: '14px', fontWeight: '400' }}
+                                                         />
+                                                      </TableCell>
+                                                      <TableCell align="center">
+                                                         <IconButton aria-label="remove"
+                                                            onClick={() => console.log('remove')}
+                                                         >
+                                                            <DeleteIcon />
+                                                         </IconButton>
+                                                      </TableCell>
+                                                   </TableRow>
+                                                )}
+                                             </Draggable>
+                                          );
+                                       })}
+                                    </TableBody>
+                                 </Table>
+                              </TableContainer>
+                           )}
+                        </Droppable>
+                     </DragDropContext>
+                  }
                </Box>
 
                <Box mt='30px' mb='30px' sx={{ width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
@@ -416,7 +450,6 @@ const ConfigurationDetailPage = () => {
                         </Table>
                      </TableContainer>
                   }
-
 
                   {isEditingMode &&
                      <DragDropContext onDragEnd={handleOnDragEnd}>

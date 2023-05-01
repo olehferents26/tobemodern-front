@@ -39,7 +39,7 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 const ProjectDetailsPage = () => {
    const [currentSection, setCurrentSection] = useState('Operations');
    const isDesktop = useMediaQuery('(min-width:1100px)');
-   const isTablet = useMediaQuery('(min-width: 768px) and (max-width: 1100px)');
+   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1100px)');
    const isMobile = useMediaQuery('(max-width:768px)');
 
    return (
