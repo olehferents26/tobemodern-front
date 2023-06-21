@@ -9,24 +9,35 @@ import {
    TableHead,
    TableRow,
    Paper,
-   Select,
-   FormControl,
-   MenuItem,
    useMediaQuery
 } from '@mui/material';
+
+import DetailsRowTableItem from './detailsRowTableItem';
 
 const DetailsTable = (props) => {
    const { title, detailsData } = props;
    const isMobile = useMediaQuery('(max-width:540px)');
-   const [status, setStatus] = React.useState('');
 
-   const handleChangeStatus = (event) => {
-      setStatus(event.target.value);
-   };
+   const [details, setDetails] = React.useState([])
 
    React.useEffect(() => {
-      setStatus()
-   }, [])
+      if(Array.isArray(detailsData)) {
+         // фільтруємо елементи по статусу і відбираємо по таблицям
+         let status = ''
+
+         if(title.includes('роботі')) {
+            status = 'В роботі'
+         }
+         if(title.includes('Готов')) {
+            status = 'Готово'
+         }
+         if(title.includes('Брак')) {
+            status = 'Брак'
+         }
+         
+         setDetails([...detailsData].filter((details) => details?.status === status))
+      }
+   }, [detailsData])
 
    return (
       <Box>
@@ -54,46 +65,17 @@ const DetailsTable = (props) => {
                      <TableCell align="left">Матеріал</TableCell>
 
                      <TableCell align="left">Опис</TableCell>
-                    {/*  <TableCell align="left">Статус</TableCell> */}
+                     <TableCell align="center">Робітник ID</TableCell>
+                     <TableCell align="left">Статус</TableCell>
                   </TableRow>
                </TableHead>
                <TableBody>
-                  {detailsData.map((project) => (
-                     <TableRow
-                        key={project.id}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                     >
-                        <TableCell>{project.name}</TableCell>
-                        <TableCell align="center">{project.amount}</TableCell>
-                        <TableCell align="left">{project.thickness}</TableCell>
-                        <TableCell align="left">{project.length}</TableCell>
-                        <TableCell align="left">{project.width}</TableCell>
-                        <TableCell align="left">{project.topLength}</TableCell>
-                        <TableCell align="left">{project.bottomLength}</TableCell>
-                        <TableCell align="left">{project.rightWidth}</TableCell>
-                        <TableCell align="left">{project.leftWidth}</TableCell>
-                        <TableCell align="left">{project.path}</TableCell>
-                        <TableCell align="left">{project.drilling}</TableCell>
-                        <TableCell align="left">{project.milling}</TableCell>
-                        <TableCell align="left">{project.material}</TableCell>
-                        <TableCell sx={{ minWidth: '90px' }} align="left">{project.desc}</TableCell>
-                        {/* <TableCell>
-                           <FormControl sx={{ m: 1, minWidth: 120 }}>
-                              <Select
-                                 value={project.status}
-                                 onChange={handleChangeStatus}
-                                 displayEmpty
-                                 inputProps={{ 'aria-label': 'Without label' }}
-                              >
-                                 <MenuItem value="В роботі">
-                                    В роботі
-                                 </MenuItem>
-                                 <MenuItem value='Готово'>Готово</MenuItem>
-                                 <MenuItem value='Брак'>Брак</MenuItem>
-                              </Select>
-                           </FormControl>
-                        </TableCell> */}
-                     </TableRow>
+                  {details.map((project) => (
+                     <DetailsRowTableItem
+                        key={project?.id}
+                        project={project}
+                        title={title}
+                     />
                   ))}
                </TableBody>
             </Table>
