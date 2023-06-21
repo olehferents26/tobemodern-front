@@ -1,16 +1,17 @@
 import { AppBar, Box, FormControl, InputLabel, MenuItem, Select, Toolbar, Typography, useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useGetCurrentUserQuery } from '../../services/userApi'
-import SearchIcon from '@mui/icons-material/Search'
-import { Search, SearchIconWrapper, SearchMobile, StyledInputBase } from './styles'
 import { useSelector } from 'react-redux'
+import SearchIcon from '@mui/icons-material/Search'
+
+import { Search, SearchIconWrapper, SearchMobile, StyledInputBase } from './styles'
+
 import BurgerMenu from '../BurgerMenu/BurgerMenu'
 
 
 
 const UserInfo = () => {
-  const { data: user } = useGetCurrentUserQuery();
+  const user = useSelector(({user})=> user?.userData)
   const isDesktop = useMediaQuery('(min-width:1100px)');
   const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1100px)');
   const isMobile = useMediaQuery('(max-width:768px)');
