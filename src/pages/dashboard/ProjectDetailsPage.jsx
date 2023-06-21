@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
    styled,
    Typography,
@@ -6,10 +6,19 @@ import {
    Button,
    useMediaQuery
 } from '@mui/material';
+
 import OperationsTable from '../../components/OperationTable/index.jsx';
 import DetailsTable from '../../components/DetailsTable/index.jsx';
-import { mockedDetailsData, mockedOperationsData } from '../../services/mockedData.js';
+
 import ProjectCompletionPage from './ProjectCompletionPage.jsx';
+
+import { 
+   mockedDetailsData, 
+   mockedOperationsData, 
+ } from '../../services/mockedData.js';
+
+import { useIsAdmin } from '../../hooks/useIsAdmin.js';
+import { useSelector } from 'react-redux';
 
 const HeaderStyle = styled('div')(() => ({
    width: "100%",
@@ -37,10 +46,30 @@ const ButtonStyle = styled(Button)(({ theme }) => ({
 }));
 
 const ProjectDetailsPage = () => {
+   const isAdmin = useIsAdmin()
+   const user = useSelector(({user}) => user.userData)
+
    const [currentSection, setCurrentSection] = useState('Operations');
+
    const isDesktop = useMediaQuery('(min-width:1100px)');
    const isTablet = useMediaQuery('(min-width: 769px) and (max-width: 1100px)');
    const isMobile = useMediaQuery('(max-width:768px)');
+
+
+   const [details, setDetails] = useState([])
+
+   useEffect(()=>{
+      // логіка для фільтрування данних для працівника якщо він не адмін
+      const mockedData = [
+         ...mockedDetailsData,
+      ]
+
+      if(!isAdmin) {
+         setDetails(mockedData.filter((operation) => operation.employeeId === user?.id))
+         return
+      }
+      setDetails(mockedData)
+   },[])
 
    return (
       <>
@@ -83,15 +112,15 @@ const ProjectDetailsPage = () => {
                   currentSection === 'Details' &&
                   <>
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Деталі в роботі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Деталі в роботі' detailsData={details} />
                      </Box>
 
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Готові деталі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Готові деталі' detailsData={details} />
                      </Box>
 
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Браковані деталі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Браковані деталі' detailsData={details} />
                      </Box>
                   </>
                }
@@ -143,15 +172,15 @@ const ProjectDetailsPage = () => {
                   currentSection === 'Details' &&
                   <>
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Деталі в роботі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Деталі в роботі' detailsData={details} />
                      </Box>
 
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Готові деталі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Готові деталі' detailsData={details} />
                      </Box>
 
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Браковані деталі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Браковані деталі' detailsData={details} />
                      </Box>
                   </>
                }
@@ -203,15 +232,15 @@ const ProjectDetailsPage = () => {
                   currentSection === 'Details' &&
                   <>
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Деталі в роботі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Деталі в роботі' detailsData={details} />
                      </Box>
 
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Готові деталі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Готові деталі' detailsData={details} />
                      </Box>
 
                      <Box mt='30px' mb='30px'>
-                        <DetailsTable title='Браковані деталі' detailsData={mockedDetailsData} />
+                        <DetailsTable title='Браковані деталі' detailsData={details} />
                      </Box>
                   </>
                }
